@@ -1,8 +1,9 @@
+import { sequelize } from '../config/mysql'
 import User from './user'
 import Classroom from './classroom'
-import { sequelize } from '../config/mysql';
-import Attendance from './attendance';
-import Role from './role';
+import Attendance from './attendance'
+import Role from './role'
+import Test from './test'
 
 const Student_Classroom = sequelize.define(
     'student_subject',
@@ -29,8 +30,12 @@ User.belongsToMany(Classroom, { through: Professor_Classroom, foreignKey: 'profe
 Classroom.belongsToMany(User, { through: Professor_Classroom, foreignKey: 'subject_id', as: 'professors' })
 
 User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' })
-User.hasOne(Attendance, { foreignKey: 'student_id' })
-//Attendance.belongsTo(User, { foreignKey: 'student_id' })
+
+User.hasMany(Attendance, { foreignKey: 'student_id' })
+Attendance.belongsTo(User, { foreignKey: 'student_id' })
+
+Classroom.hasMany(Test, { foreignKey: 'subject_id' })
+Test.belongsTo(Classroom, { foreignKey: 'subject_id' })
 
 User.getByUsername = (username: string) => {
     return User.scope('withPassword').findOne({
@@ -39,4 +44,4 @@ User.getByUsername = (username: string) => {
     })
 }
 
-export { User, Classroom, Attendance }
+export { User, Classroom, Attendance, Test }

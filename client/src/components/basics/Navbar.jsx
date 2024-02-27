@@ -26,7 +26,7 @@ const Navbar = ({ title }) => {
                         {
                             user &&
                             <Link to={`${Routes.Users}/${user.idUser}`}  className='text-end'>
-                                <div>{`${user.surnames} ${user.names}`}</div>
+                                <div>{`${user.surnames ?? ''} ${user.names ?? ''}`}</div>
                                 <small>{user.username}</small>
                             </Link>
                         }

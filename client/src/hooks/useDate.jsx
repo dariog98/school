@@ -5,7 +5,7 @@ const useDate = (initialDate) => {
     const [date, setDate] = useState(initialDate ? getUTCDateFromString(initialDate) : new Date())
 
     useEffect(() => {
-        setDate(initialDate ? getUTCDate(initialDate) : new Date())
+        setDate(initialDate ? getUTCDateFromString(initialDate) : new Date())
     }, [initialDate])
 
     const goToDate = (date) => {

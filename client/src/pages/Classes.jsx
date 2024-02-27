@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Container, NotFound } from '../components/basics'
+import { Container, NotFound, SearchBar } from '../components/basics'
 import { Routes } from '../constants/routes'
 import { useClasses } from '../hooks'
 
@@ -9,6 +9,9 @@ const Classes = () => {
     return (
         <Container title='Classes'>
             <div className='d-flex flex-column gap-3'>
+                <div>
+                    <SearchBar placeholder='Search...'/>
+                </div>
                 {
                     !isLoading && data
                     ? data.data.map(subject =>

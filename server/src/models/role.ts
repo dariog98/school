@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../config/mysql'
 
-const Role= sequelize.define(
+const Role = sequelize.define(
     'roles',
     {
         description: {

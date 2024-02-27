@@ -24,6 +24,13 @@ const getClassroomStudents = async (request: Request, response: Response): void 
     sendResponse({ response, statusCode: 200, data, total })
 }
 
+const getClassroomStudent = async (request: Request, response: Response): void => {
+    const idClassroom = Number(request.params.id)
+    const idStudent = Number(request.params.student)
+    const student = await ClassroomServices.getClassroomStudent(idClassroom, idStudent)
+    sendResponse({ response, statusCode: 200, data: student })
+}
+
 const createClassroom = async (request: Request, response: Response): void => {
     const { description } = request.body
     await ClassroomServices.createClassroom(description)
@@ -44,13 +51,30 @@ const saveClassroomAttendance = async (request: Request, response: Response): vo
     sendResponse({ response, statusCode: 200, message: 'Classroom attendances saved sucessfully' })
 }
 
+const getClassroomTests = async (request: Request, response: Response): void => {
+    const idClassroom = Number(request.params.id)
+    const { date } = request.query
+    const { total, data }= await ClassroomServices.getClassroomTests(idClassroom, ['id', 'ASC'])
+    sendResponse({ response, statusCode: 200, total, data })
+}
+
+const createClassroomTest = async (request: Request, response: Response): void => {
+    const idClassroom = Number(request.params.id)
+    const { description, date, students } = request.body
+    await ClassroomServices.createClassroomTest(idClassroom, description, date, students ?? [])
+    sendResponse({ response, statusCode: 201, message: 'Test created sucessfully' })
+}
+
 const ClassroomControllers = {
     getAllClassrooms: catchedAsync(getAllClassrooms),
     getClassroom: catchedAsync(getClassroom),
     getClassroomStudents: catchedAsync(getClassroomStudents),
+    getClassroomStudent: catchedAsync(getClassroomStudent),
     createClassroom: catchedAsync(createClassroom),
     getClassroomAttendance: catchedAsync(getClassroomAttendance),
     saveClassroomAttendance: catchedAsync(saveClassroomAttendance),
+    getClassroomTests: catchedAsync(getClassroomTests),
+    createClassroomTest: catchedAsync(createClassroomTest),
 }
 
 export default ClassroomControllers

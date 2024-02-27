@@ -12,6 +12,7 @@ const useClassAttendanceForm = ({ idClass, date, data }) => {
             return accumulator
         },{})
     })
+    const status = data.length && data[0].attendance !== null ? true : false
 
     const handleConfirm = async (data) => {
         try {
@@ -30,7 +31,8 @@ const useClassAttendanceForm = ({ idClass, date, data }) => {
     return {
         date,
         form: { ...form, handleSubmit: form.handleSubmit(handleConfirm) },
-        isLoading
+        isLoading,
+        status
     }
 }
 

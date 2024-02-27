@@ -1,7 +1,12 @@
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { getStringDateInLanguageTimeZone, getUTCDateFromString } from '../../constants/date'
+import { ButtonLink } from '../basics'
 import { useSettingsContext } from '../providers/SettingsProvider'
+import { Routes } from '../../constants/routes'
+import { useUserContext } from '../providers/UserProvider'
 
 const UserData = ({ data }) => {
+    const { user } = useUserContext()
     const { language } = useSettingsContext()
 
     return (
@@ -12,7 +17,7 @@ const UserData = ({ data }) => {
                 <small className='text-uppercase text-secondary'>{language.roles[data.role_id]}</small>
             </div>
 
-            <div>
+            <div className='d-flex justify-content-between'>
                 <table>
                     <tbody>
                         <tr>
@@ -37,6 +42,18 @@ const UserData = ({ data }) => {
                         </tr>
                     </tbody>
                 </table>
+
+                {
+                    user.idUser === data.id &&
+                    <div>
+                        <ButtonLink
+                            className='btn-secondary'
+                            text='Edit'
+                            icon={faPen}
+                            to={`${Routes.ProfileEdit}`}
+                        />
+                    </div>
+                }
             </div>
         </div>
     )

@@ -30,11 +30,13 @@ const Login = () => {
                         handleSee={toggleSwitch}
                     />
 
+                    <div className='mt-3'>
                     <Button
-                        className='btn-primary flex-grow-1'
+                        className='btn-primary w-100'
                         text='Login'
                         handleOnClick={form.handleSubmit}
                     />
+                    </div>
 
                 </div>
             </Card>

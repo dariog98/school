@@ -1,5 +1,5 @@
-import { ServerError } from '../constants/errors'
-import { Attendance, Classroom, User } from '../models/index'
+import { ClientError, ServerError } from '../constants/errors'
+import { Attendance, Classroom, Test, User } from '../models/index'
 import { sequelize } from '../config/mysql'
 
 const getAllClassrooms = async () => {
@@ -10,7 +10,10 @@ const getAllClassrooms = async () => {
 const getClassroomById = async (idClassroom : number) => {
     const classroom = await Classroom.findOne({
         attributes: { 
-            include: [[sequelize.literal(`(SELECT COUNT(*) from student_subject where subject_id = ${Number(idClassroom)})`), 'totalStudents']]
+            include: [
+                [sequelize.literal(`(SELECT COUNT(*) from student_subject where subject_id = ${Number(idClassroom)})`), 'totalStudents'],
+                [sequelize.literal(`(SELECT COUNT(DISTINCT date) from attendances where subject_id = ${Number(idClassroom)})`), 'totalClasses']
+            ],
         },
         where: { id: idClassroom },
         include: ['students', 'professors']
@@ -25,13 +28,57 @@ const getClassroomStudents = async (idClassroom : number, order) => {
     return { total, data }
 }
 
-const getClassroomAttendance = async (idClassroom : number, date, order) => {
+const getClassroomStudent = async (idClassroom : number, idStudent: number) => {
+    const student = await User.findOne({
+        where: { id: idStudent },
+        include: [
+            { model: Classroom, as: 'classrooms', where: { id: idClassroom }},
+            { model: Attendance, where: { subject_id: idClassroom }, required: false }
+        ]
+    })
+    if (!student) throw new ClientError('Student not found', 404)
+    const studentData = student.get()
+    delete studentData.classrooms
+    studentData.attendances = studentData.attendances.reduce((accumulator, current) => {
+        if (current.status) accumulator.push(current)
+        return accumulator
+    },[])
+    return studentData
+}
+
+const getClassroomAttendance = async (idClassroom : number, date: string | undefined, order) => {
     const [students] = await sequelize.query(`SELECT student_id as id from student_subject where subject_id = ${Number(idClassroom)}`)
     const studentsId = students.map(student => student.id)
+
+    if (date) {
+        const rows = await Attendance.findAll({
+            attributes: [
+                [sequelize.fn('COUNT', sequelize.col('student_id')), 'records'],
+            ],
+            where: { subject_id: idClassroom, date },
+            raw: true
+        })
+        const status = rows[0].records > 0 ? 'saved' : 'unsaved'
+        const { count: total, rows: data } = await User.findAndCountAll({
+            where: { id: studentsId },
+            order: [ order ],
+            include: { model: Attendance, where: { subject_id: idClassroom, date }, required: false }
+        })
+        
+        const records = data.map(row => {
+            const record = row.get()
+            record.attendance = record.attendances[0].status ? record.attendances[0] : null
+            delete record.attendances
+            return record
+        })
+
+        return { total, data: records }
+    }
+
     const { count: total, rows: data } = await User.findAndCountAll({
         where: { id: studentsId },
         order: [ order ],
-        include: { model: Attendance, where: { subject_id: idClassroom, date }, required: false }
+        include: { model: Attendance, where: { subject_id: idClassroom }, required: false }
     })
     return { total, data }
 }
@@ -47,6 +94,11 @@ const saveClassroomAttendance = async (idClassroom : number, date : string, atte
     }
 }
 
+const getClassroomTests = async (idClassroom : number, order) => {
+    const { count: total, rows: data } = await Test.findAndCountAll({ where: { subject_id: idClassroom }, order: [order]})
+    return { total, data }
+}
+
 const createClassroom = async (description : string) => {
     try {
         await Classroom.create({ description })
@@ -55,13 +107,24 @@ const createClassroom = async (description : string) => {
     }
 }
 
+const createClassroomTest = async (idClassroom : number, description : string, date : string, students : number[]) => {
+    try {
+        await Test.create({ subject_id: idClassroom, description, date })
+    } catch(error) {
+        throw new ServerError('Server error')
+    }
+}
+
 const ClassroomServices = {
     getAllClassrooms,
     getClassroomById,
+    getClassroomStudent,
     getClassroomStudents,
     createClassroom,
     saveClassroomAttendance,
     getClassroomAttendance,
+    getClassroomTests,
+    createClassroomTest,
 }
 
 export default ClassroomServices

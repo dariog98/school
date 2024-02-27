@@ -16,7 +16,7 @@ const changePassword = async (data) => {
 }
 
 const updateUser = async (data) => {
-    const url = RoutesAPI.UserUpdate
+    const url = RoutesAPI.Users
     const request = newRequest({ url, method: METHODS.Patch, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
     const response = await fetch(request)
     return await response.json()
@@ -31,7 +31,8 @@ const getUser = async ({ idUser }) => {
 
 const UserServices = {
     loginUser,
-    getUser
+    getUser,
+    updateUser
 }
 
 export default UserServices

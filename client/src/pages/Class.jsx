@@ -14,13 +14,13 @@ const Subject = () => {
         <Container title={data?.data.description ?? 'Class'}>
             {
                 data && data?.data &&
-                <div className='d-grid gap-3' style={{ gridTemplateColumns: '2fr 1fr' }}>
+                <div className='d-grid gap-3 grid-responsive'>
                     <div className='d-flex flex-column gap-3'>
                         <ClassData data={data.data}/>
 
                         <div className='d-flex'>
                             <ButtonLink
-                                className='btn-success'
+                                className='btn-secondary'
                                 icon={faCalendar}
                                 text='Attendance'
                                 to={`${Routes.Classes}/${idClass}/attendances`}

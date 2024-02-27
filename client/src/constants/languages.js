@@ -4,7 +4,8 @@ export const LANGUAGES = {
             1: 'Administrador',
             2: 'Profesor',
             3: 'Alumno'
-        }
+        },
+        days: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado' ],
     },
     EN: {
         messages: {
@@ -35,6 +36,7 @@ export const LANGUAGES = {
             1: 'Admin',
             2: 'Teacher',
             3: 'Student'
-        }
+        },
+        days: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
     }
 }

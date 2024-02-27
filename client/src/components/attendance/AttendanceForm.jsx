@@ -1,13 +1,46 @@
+import { faArrowLeft, faArrowRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import { useClassAttendanceForm } from '../../hooks'
 import { Button } from '../basics'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getStringDateInLanguageTimeZone } from '../../constants/date'
 
 const style = { width: '2rem', height: '1.25rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }
+const ArrowIcon = { width: '2rem', height: '2rem', margin: 0 }
 
-const AttendanceForm = ({ idClass, date, students }) => {
-    const { form, isLoading } = useClassAttendanceForm({ idClass, date, data: students })
+const AttendanceForm = ({ idClass, date, students, handlePrevDate, handleNextDate }) => {
+    const { form, isLoading, status } = useClassAttendanceForm({ idClass, date, data: students })
 
     return (
         <>
+            <div className='d-flex justify-content-between align-items-center'>
+                <span className='fw-bolder'>{getStringDateInLanguageTimeZone(date, 'EN', 'UTC')}</span>
+                <div className='d-flex gap-3'>
+                    {
+                        status &&
+                        <div
+                            className='d-flex justify-content-center align-items-center rounded-5 border'
+                            style={ArrowIcon}
+                            title='Saved'
+                        >
+                            <FontAwesomeIcon icon={faFloppyDisk}/>
+                        </div>
+                    }
+
+                    <Button
+                        className='btn-outline-system rounded-5'
+                        style={ArrowIcon}
+                        icon={faArrowLeft}
+                        handleOnClick={handlePrevDate}
+                    />
+                    <Button
+                        className='btn-outline-system rounded-5'
+                        style={ArrowIcon}
+                        icon={faArrowRight}
+                        handleOnClick={handleNextDate}
+                    />
+                </div>
+            </div>
+
             <div className='card'>
                 <div className='card-body'>
                     <div className='d-flex justify-content-between align-items-center'>
@@ -26,7 +59,7 @@ const AttendanceForm = ({ idClass, date, students }) => {
                     <div key={student.id} className={`card ${!(index % 2) ?  'bg-body-secondary' : ''}`}>
                         <div className='card-body'>
                             <div className='d-flex justify-content-between'>
-                                <span className='overflow-hidden text-truncate'>{`${String(index).padStart(2, '0')} ${student.surnames} ${student.names}`}</span>
+                                <span className='overflow-hidden text-truncate'>{`${String(index + 1).padStart(2, '0')} ${student.surnames} ${student.names}`}</span>
                                 <div className='d-flex gap-3'>
                                     <div style={style}><input className='form-check-input' { ...form.register(String(student.id)) } value='1' type='radio'/></div>
                                     <div style={style}><input className='form-check-input' { ...form.register(String(student.id)) } value='2' type='radio'/></div>
@@ -43,6 +76,7 @@ const AttendanceForm = ({ idClass, date, students }) => {
                     className='btn-primary'
                     text='Save'
                     handleOnClick={form.handleSubmit}
+                    icon={faFloppyDisk}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                 />

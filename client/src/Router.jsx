@@ -1,6 +1,6 @@
 import { Routes } from './constants/routes'
 import { createBrowserRouter } from 'react-router-dom'
-import { Attendance, Class, Classes, Login, User } from './pages'
+import { Attendance, Class, Classes, EditProfile, Login, User } from './pages'
 import ProtectedUserRoute from './components/protect/ProtectedUserRoute'
 
 const router = createBrowserRouter([
@@ -25,6 +25,10 @@ const router = createBrowserRouter([
                     {
                         path: `${Routes.Users}/:id`,
                         element: <User/>,
+                    },
+                    {
+                        path: Routes.ProfileEdit,
+                        element: <EditProfile/>,
                     },
                 ]
             },

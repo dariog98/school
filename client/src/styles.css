@@ -30,7 +30,6 @@ a {
     }
 }
 
-
 [data-bs-theme=dark] {
     .btn-minimal:hover {
         background-color: #444950;
@@ -54,3 +53,23 @@ a {
     }
 }
 
+.table-overflow tbody {
+    display: block;
+    overflow: auto;
+}
+
+.table-overflow tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.grid-responsive {
+    grid-template-columns: 2fr 1fr;
+}
+
+@media (max-width: 720px) {
+    .grid-responsive {
+        grid-template-columns: 1fr;
+    }
+}

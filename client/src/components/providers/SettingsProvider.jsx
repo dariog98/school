@@ -8,7 +8,7 @@ const SettingsProvider = ({ children }) => {
     const themeStorage = useLocalStorage('THEME')
     const languageStorage = useLocalStorage('LANGUAGE')
 
-    const [theme, setTheme] = useState(themeStorage.getItem() || 'dark')
+    const [theme, setTheme] = useState(themeStorage.getItem() || 'light')
     const [language, setLanguage] = useState(languageStorage.getItem() || 'EN')
 
     document.body.setAttribute('data-bs-theme', theme)

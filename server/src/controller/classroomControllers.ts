@@ -65,6 +65,20 @@ const createClassroomTest = async (request: Request, response: Response): void =
     sendResponse({ response, statusCode: 201, message: 'Test created sucessfully' })
 }
 
+const addStudentToClassroom = async (request: Request, response: Response): void => {
+    const idClassroom = Number(request.params.id)
+    const idStudent = Number(request.params.student)
+    await ClassroomServices.addStudentToClassroom(idClassroom, idStudent)
+    sendResponse({ response, statusCode: 200, message: 'Student added sucessfully' })
+}
+
+const removeStudentToClassroom = async (request: Request, response: Response): void => {
+    const idClassroom = Number(request.params.id)
+    const idStudent = Number(request.params.student)
+    await ClassroomServices.removeStudentToClassroom(idClassroom, idStudent)
+    sendResponse({ response, statusCode: 200, message: 'Student removed sucessfully' })
+}
+
 const ClassroomControllers = {
     getAllClassrooms: catchedAsync(getAllClassrooms),
     getClassroom: catchedAsync(getClassroom),
@@ -75,6 +89,8 @@ const ClassroomControllers = {
     saveClassroomAttendance: catchedAsync(saveClassroomAttendance),
     getClassroomTests: catchedAsync(getClassroomTests),
     createClassroomTest: catchedAsync(createClassroomTest),
+    addStudentToClassroom: catchedAsync(addStudentToClassroom),
+    removeStudentToClassroom: catchedAsync(removeStudentToClassroom),
 }
 
 export default ClassroomControllers

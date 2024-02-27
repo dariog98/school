@@ -12,8 +12,9 @@ const Navbar = ({ title }) => {
     return (
         <nav className='card border-0 rounded-0 shadow-sm' style={{ height: '4rem' }}>
             <div className='container my-auto'>
-                <div className='d-flex justify-content-between align-items-center px-3'>
-                    <div className='fs-4'>{title}</div>
+                <div className='d-flex justify-content-between align-items-center'>
+                    {/*<div className='fs-4'>{title}</div>*/}
+                    <div></div>
 
                     <div className='d-flex align-items-center gap-2'>
                         <button

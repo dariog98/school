@@ -34,7 +34,7 @@ User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' })
 User.hasMany(Attendance, { foreignKey: 'student_id' })
 Attendance.belongsTo(User, { foreignKey: 'student_id' })
 
-Classroom.hasMany(Test, { foreignKey: 'subject_id' })
+Classroom.hasMany(Test, { foreignKey: 'subject_id', as: 'tests' })
 Test.belongsTo(Classroom, { foreignKey: 'subject_id' })
 
 User.getByUsername = (username: string) => {
@@ -44,4 +44,4 @@ User.getByUsername = (username: string) => {
     })
 }
 
-export { User, Classroom, Attendance, Test }
+export { User, Classroom, Attendance, Test, Student_Classroom }

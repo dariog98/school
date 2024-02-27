@@ -1,5 +1,5 @@
 import { ClientError, ServerError } from '../constants/errors'
-import { Attendance, Classroom, Test, User } from '../models/index'
+import { Attendance, Classroom, Student_Classroom, Test, User } from '../models/index'
 import { sequelize } from '../config/mysql'
 
 const getAllClassrooms = async () => {
@@ -16,7 +16,7 @@ const getClassroomById = async (idClassroom : number) => {
             ],
         },
         where: { id: idClassroom },
-        include: ['students', 'professors']
+        include: ['students', 'professors', 'tests']
     })
     return classroom
 }
@@ -86,7 +86,6 @@ const getClassroomAttendance = async (idClassroom : number, date: string | undef
 const saveClassroomAttendance = async (idClassroom : number, date : string, attendances: any) => {
     try {
         const records = attendances.map(attendance => ({ student_id: attendance.idStudent, subject_id: idClassroom, date, status: attendance.status }))
-        console.log(records)
         await Attendance.bulkCreate(records, { updateOnDuplicate: ['status'] })    
     } catch(error) {
         console.log(error)
@@ -115,6 +114,25 @@ const createClassroomTest = async (idClassroom : number, description : string, d
     }
 }
 
+const addStudentToClassroom = async (idClassroom : number, idStudent : number) => {
+    try {
+        await Student_Classroom.create({ subject_id: idClassroom, student_id: idStudent })
+    } catch(error) {
+        throw new ServerError('Server error')
+    }
+}
+
+const removeStudentToClassroom = async (idClassroom : number, idStudent : number) => {
+    const classroom = await Classroom.findOne({ where: { id: idClassroom }})
+    if (!classroom) throw new ClientError('Classroom not found', 404)
+    try {
+        await Student_Classroom.destroy({ where: { subject_id: idClassroom, student_id: idStudent } })
+    } catch(error) {
+        console.log(error)
+        throw new ServerError('Server error')
+    }
+}
+
 const ClassroomServices = {
     getAllClassrooms,
     getClassroomById,
@@ -125,6 +143,8 @@ const ClassroomServices = {
     getClassroomAttendance,
     getClassroomTests,
     createClassroomTest,
+    addStudentToClassroom,
+    removeStudentToClassroom
 }
 
 export default ClassroomServices

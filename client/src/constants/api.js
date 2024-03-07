@@ -1,6 +1,6 @@
-const BASE = 'http://localhost:3001'
+const BASE = import.meta.env.VITE_API_SERVER
 
-const  RoutesAPI = {
+const RoutesAPI = {
     Classtimes: `${BASE}/classtimes`,
     Subjects: `${BASE}/classrooms`,
     Users: `${BASE}/users`,

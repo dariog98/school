@@ -5,32 +5,12 @@ import { useSettingsContext } from '../providers/SettingsProvider'
 import { Link } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
 
-const Navbar = ({ title }) => {
-    const { user } = useUserContext()
-    const { isThemeDark, toggleTheme } = useSettingsContext()
-
+const Navbar = ({ children }) => {
     return (
-        <nav className='card border-0 rounded-0 shadow-sm' style={{ height: '4rem' }}>
+        <nav className='card border-0 rounded-0 shadow-sm text-light' style={{ backgroundColor: '#473aa0', height: '4rem' }}>
             <div className='container my-auto'>
-                <div className='d-flex justify-content-between align-items-center px-3'>
-                    <div className='fs-4'>{title}</div>
-
-                    <div className='d-flex align-items-center gap-2'>
-                        <button
-                            className='btn btn-minimal rounded-5 d-flex justify-content-center align-items-center'
-                            style={{ width: '2.5rem', height: '2.5rem' }}
-                            onClick={toggleTheme}
-                        >
-                            <FontAwesomeIcon icon={isThemeDark ? faMoon : faSun} style={{ width: '1.5rem', height: '1.5rem' }}/>
-                        </button>
-                        {
-                            user &&
-                            <Link to={`${Routes.Users}/${user.idUser}`}  className='text-end'>
-                                <div>{`${user.surnames ?? ''} ${user.names ?? ''}`}</div>
-                                <small>{user.username}</small>
-                            </Link>
-                        }
-                    </div>
+                <div className='d-flex justify-content-between align-items-center gap-3'>
+                    {children}
                 </div>
             </div>
         </nav>

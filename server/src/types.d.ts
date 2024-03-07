@@ -15,18 +15,11 @@ export interface User {
 
 export type NonSensitiveInfoUser = Omit<User, 'password'>
 
-export interface Student {
-    id: string
-    names: string
-    surnames: string
-    birthdate: string
-}
-
 export interface Classroom {
     id: string,
     description: string,
-    students: Student[],
-    //profesors: Profesor[]
+    students: User[],
+    professors: User[]
 }
 
 export interface ResponseBody {

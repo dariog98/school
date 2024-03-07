@@ -17,6 +17,7 @@ const User = () => {
                     <div className='d-flex flex-column gap-5'>
                         <UserData data={data.data}/>
                         {data.data.role_id === USER_ROLES.Student && <UserClasses classes={data.data.classrooms}/>}
+
                     </div>
                 }
             </div>

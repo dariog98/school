@@ -1,4 +1,4 @@
-import { Button, Card, Input, Password } from '../components/basics'
+import { Button, Card, Input, Password, Navbar, SkoolLogo } from '../components/basics'
 import { useLogin, useSwitch } from '../hooks'
 
 const Login = () => {
@@ -6,40 +6,48 @@ const Login = () => {
     const { mode, toggleSwitch } = useSwitch()
 
     return (
-        <div className='w-100 vh-100 d-flex justify-content-center align-items-center' style={{
-            background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)'
-        }}>
-            <Card style={{ width: '450px' }}>
-                <div className='d-flex flex-column gap-3'>
+        <div className='bg-dark'>
+            <div className='img-background'/>
 
-                    <div className='text-center'>
-                        <span className='fw-bolder fs-2'>Welcome</span>
-                    </div>
+            <div className='w-100 vh-100 d-flex flex-column'>
+                <Navbar>
+                    <SkoolLogo/>
+                    <div></div>
+                </Navbar>
+                <div className='flex-grow-1 d-flex justify-content-center align-items-center'>
+                    <Card className='rounded-4 border-0 m-2' style={{ width: '450px' }}>
+                        <div className='d-flex flex-column gap-3'>
 
-                    <Input
-                        label='Username'
-                        name='username'
-                        form={form}
-                    />
+                            <div className='text-center'>
+                                <span className='fw-bolder fs-2'>Welcome</span>
+                            </div>
 
-                    <Password
-                        label='Password'
-                        name='password'
-                        form={form}
-                        see={mode}
-                        handleSee={toggleSwitch}
-                    />
+                            <Input
+                                label='Username'
+                                name='username'
+                                form={form}
+                            />
 
-                    <div className='mt-3'>
-                    <Button
-                        className='btn-primary w-100'
-                        text='Login'
-                        handleOnClick={form.handleSubmit}
-                    />
-                    </div>
+                            <Password
+                                label='Password'
+                                name='password'
+                                form={form}
+                                see={mode}
+                                handleSee={toggleSwitch}
+                            />
 
+                            <div className='mt-3'>
+                            <Button
+                                className='btn-primary w-100'
+                                text='Login'
+                                handleOnClick={form.handleSubmit}
+                            />
+                            </div>
+
+                        </div>
+                    </Card>
                 </div>
-            </Card>
+            </div>
         </div>
     )
 }

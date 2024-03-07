@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../config/mysql'
+import { sequelize } from '../config/postgres'
 
 const Test = sequelize.define(
     'tests',

@@ -1,6 +1,4 @@
-import { ErrorResponseBody, ResponseBody } from '../types'
-
-const sendResponse = ({ response, statusCode, status, message, data, total, totalPages }: ResponseBody) => {
+const sendResponse = ({ response, statusCode, status, message, data, total, totalPages }) => {
     response.status(statusCode).send({
         status: status ?? statusCode,
         message,
@@ -10,7 +8,7 @@ const sendResponse = ({ response, statusCode, status, message, data, total, tota
     }).end()
 }
 
-const sendErrorResponse = ({ response, statusCode, errorCode, message } : ErrorResponseBody) => {
+const sendErrorResponse = ({ response, statusCode, errorCode, message }) => {
     response.status(statusCode ?? 500).json({
         status: errorCode ?? 500,
         message

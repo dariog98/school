@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-const tokenSign = async (user, secretKey: string | undefined, expirationTime: string) => {
+const tokenSign = async (user, secretKey, expirationTime) => {
     return jwt.sign(
         user,
         secretKey,
@@ -10,7 +10,7 @@ const tokenSign = async (user, secretKey: string | undefined, expirationTime: st
     )
 }
 
-const verifyToken = async (token: string, secretKey: string | undefined) => {
+const verifyToken = async (token, secretKey) => {
     try {
         return jwt.verify(token, secretKey)
     } catch(error) {
@@ -19,7 +19,7 @@ const verifyToken = async (token: string, secretKey: string | undefined) => {
     }
 }
 
-const getTokenFromRequest = async (request: Express.Request) => {
+const getTokenFromRequest = async (request) => {
     const secretKey = process.env.JWT_SECRET
     const token = request.headers.authorization.split(' ').pop()
     const tokenData = await verifyToken(token, secretKey)

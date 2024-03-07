@@ -1,24 +1,27 @@
 class ExpressError extends Error {
-    error: Error | undefined
-    statusCode: number
-    errorCode: number | undefined
+    error
+    statusCode
+    errorCode
 
-    constructor(message: string, statusCode: number, errorCode?: number | undefined) {
+    constructor(message, statusCode, errorCode) {
         super(message)
-        //this.error = error
         this.statusCode = statusCode
         this.errorCode = errorCode
+    }
+
+    setError(error) {
+        this.error = error
     }
 }
 
 class ClientError extends ExpressError {
-    constructor(message: string, statusCode: number = 400, errorCode?: number | undefined) {
+    constructor(message, statusCode, errorCode) {
         super(message, statusCode, errorCode ?? statusCode)
     }
 }
 
 class ServerError extends ExpressError {
-    constructor(message: string, statusCode: number = 500) {
+    constructor(message, statusCode, errorCode) {
         super(message, statusCode, undefined)
     }
 }

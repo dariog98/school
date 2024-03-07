@@ -1,10 +1,10 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../config/mysql'
-import User from './user'
-import Classroom from './classroom'
-import Attendance from './attendance'
-import Role from './role'
-import Test from './test'
+import { sequelize } from '../config/postgres.js'
+import User from './user.js'
+import Classroom from './classroom.js'
+import Attendance from './attendance.js'
+import Role from './role.js'
+import Test from './test.js'
 
 const Student_Classroom = sequelize.define(
     'student_subject',
@@ -57,7 +57,7 @@ User.hasMany(Attendance, { foreignKey: 'student_id' })
 //Classroom.hasMany(Attendance, { foreignKey: 'subject_id' })
 //Attendance.belongsTo(Classroom, { foreignKey: 'student_id' })
 
-User.getByUsername = (username: string) => {
+User.getByUsername = (username) => {
     return User.scope('withPassword').findOne({
         where: { is_deleted: false, username },
         include: ['role']

@@ -1,7 +1,7 @@
-import { ClientError, ServerError } from '../constants/errors'
-import { compare } from '../utils/handleBcrypt'
-import { User } from '../models/index'
-import { tokenSign } from '../utils/handleToken'
+import { ClientError, ServerError } from '../constants/errors.js'
+import { compare } from '../utils/handleBcrypt.js'
+import { User } from '../models/index.js'
+import { tokenSign } from '../utils/handleToken.js'
 
 const tokenSecretKey = process.env.JWT_SECRET
 const refreshTokenSecretKey = process.env.JWT_RT_SECRET
@@ -31,7 +31,7 @@ const createUserDataAndTokens = async (user) => {
     return data
 }
 
-const loginUser = async (username: string, password: string) => {
+const loginUser = async (username, password) => {
     const user = await User.getByUsername(username)
     if (!user) throw new ClientError('User not found', 404)
     
@@ -66,7 +66,7 @@ const updateUser = async (idUser, surnames, names, dni, birthdate, phone, addres
     }
 }
 
-const getUserById = async (idUser: number) => {
+const getUserById = async (idUser) => {
     const user = await User.findOne({
         attributes: { exclude: ['is_deleted']},
         where: { id: idUser },

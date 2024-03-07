@@ -1,11 +1,11 @@
 import bcrypt from 'bcryptjs'
 
-const encrypt = async (text: string) => {
+const encrypt = async (text) => {
     const hash = await bcrypt.hash(text, 10)
     return hash
 }
 
-const compare = async (password: string, hashPassword: string) => {
+const compare = async (password, hashPassword) => {
     return await bcrypt.compare(password, hashPassword)
 }
 

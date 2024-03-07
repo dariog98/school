@@ -2,3 +2,5 @@ node_modules
 .eslintrc.js
 .env
 pnpm-lock.yaml
+
+build

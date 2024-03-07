@@ -1,10 +1,22 @@
 * {
-    font-family: 'Fredoka';
+    font-family: 'Space Grotesk';
 }
 
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.font-fredoka {
+    font-family: 'Fredoka';
+}
+
+.font-inter {
+    font-family: 'Inter';
+}
+
+.font-space-grotesk {
+    font-family: 'Space Grotesk';
 }
 
 [data-bs-theme=light] {
@@ -72,4 +84,60 @@ a {
     .grid-responsive {
         grid-template-columns: 1fr;
     }
+}
+
+.home-header {
+    background: #473aa0;
+    height: 800px;
+    max-height: 800px;
+    overflow: hidden;
+}
+
+.home-img {
+    height: 100%;
+    width: auto;
+    /*mask-image: linear-gradient(90deg,black 0%, transparent 50%,black 100%);*/
+    /*mask-image: linear-gradient(90deg, transparent 0%,black 50%, transparent 100%);*/
+    mask-image: radial-gradient(circle, black 0%, transparent 80%);
+}
+
+.img-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #473aa0;
+    background-color: #7e7a97;
+    background-image: url('../public/md-duran-1VqHRwxcCCw_1920.jpg');
+    background-size: cover;
+    background-blend-mode: multiply;
+    filter: blur(8px);
+}
+
+@media (max-width: 1200px) {
+    .home-img {
+        width: 100%;
+    }
+
+    .home-header {
+        height: auto;
+        max-height: auto;
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.underline-on-hover {
+    text-decoration: none;
+}
+
+.underline-on-hover:hover {
+    text-decoration: underline;
+}
+
+.underline {
+    text-decoration: underline;
 }

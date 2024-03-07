@@ -12,14 +12,32 @@ const UserData = ({ data }) => {
     return (
         <div className='d-flex flex-column gap-3'>
 
-            <div>
-                <h3 className='p-0 m-0'>{`${data.surnames ?? ''} ${data.names ?? ''}`}</h3>
-                <small className='text-uppercase text-secondary'>{language.roles[data.role_id]}</small>
+            <div className='d-flex justify-content-between'>
+                <div>
+                    <h3 className='p-0 m-0'>{`${data.surnames ?? ''} ${data.names ?? ''}`}</h3>
+                    <small className='text-uppercase text-secondary'>{language.roles[data.role_id]}</small>
+                </div>
+                {
+                    user.idUser === data.id &&
+                    <div>
+                        <ButtonLink
+                            className='btn-outline-secondary rounded-5'
+                            text='Edit'
+                            icon={faPen}
+                            to={`${Routes.ProfileEdit}`}
+                        />
+                    </div>
+                }
             </div>
+
 
             <div className='d-flex justify-content-between'>
                 <table>
                     <tbody>
+                        <tr>
+                            <th className='text-uppercase'>Username</th>
+                            <td className='ps-3'>{data.username}</td>
+                        </tr>
                         <tr>
                             <th className='text-uppercase'>DNI</th>
                             <td className='ps-3'>{data.dni}</td>
@@ -42,18 +60,6 @@ const UserData = ({ data }) => {
                         </tr>
                     </tbody>
                 </table>
-
-                {
-                    user.idUser === data.id &&
-                    <div>
-                        <ButtonLink
-                            className='btn-secondary'
-                            text='Edit'
-                            icon={faPen}
-                            to={`${Routes.ProfileEdit}`}
-                        />
-                    </div>
-                }
             </div>
         </div>
     )

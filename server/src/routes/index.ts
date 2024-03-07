@@ -1,12 +1,9 @@
 import { Router } from 'express'
-import StudentRouter from './students'
+import { ClientError } from '../constants/errors'
 import ClassroomRouter from './classrooms'
 import UserRouter from './users'
 
-import { ClientError } from '../constants/errors'
-
 const router = Router()
-router.use('/students', StudentRouter)
 router.use('/classrooms', ClassroomRouter)
 router.use('/users', UserRouter)
 

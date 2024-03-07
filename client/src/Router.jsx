@@ -1,6 +1,6 @@
 import { Routes } from './constants/routes'
 import { createBrowserRouter } from 'react-router-dom'
-import { Attendance, Class, Classes, EditProfile, Login, User } from './pages'
+import { Attendance, Class, ClassForm, Classes, EditProfile, Home, Login, Test, User } from './pages'
 import ProtectedUserRoute from './components/protect/ProtectedUserRoute'
 
 const router = createBrowserRouter([
@@ -19,8 +19,20 @@ const router = createBrowserRouter([
                         element: <Class/>,
                     },
                     {
+                        path: `${Routes.Classes}/:id/edit`,
+                        element: <ClassForm/>,
+                    },
+                    {
+                        path: `${Routes.Classes}/new`,
+                        element: <ClassForm/>,
+                    },
+                    {
                         path: `${Routes.Classes}/:id/attendances`,
                         element: <Attendance/>,
+                    },
+                    {
+                        path: `${Routes.Classes}/:id/tests/:test`,
+                        element: <Test/>,
                     },
                     {
                         path: `${Routes.Users}/:id`,
@@ -35,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: Routes.Login,
                 element: <Login/>,
+            },
+            {
+                path: Routes.Home,
+                element: <Home/>,
             },
         ]
     },

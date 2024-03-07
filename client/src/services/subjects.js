@@ -4,8 +4,8 @@ import { CONTENT_TYPES, METHODS, newRequest } from '../constants/request'
 const getAllSubjects = async ({ search, page, order }) => {
     const params = new URLSearchParams({
         search: search ?? '',
-        page: page ?? 1,
-        order: JSON.stringify(order ?? []),
+        //page: page ?? 1,
+        //order: JSON.stringify(order ?? []),
     })
 
     const url = `${RoutesAPI.Subjects}?${params.toString()}`
@@ -16,6 +16,27 @@ const getAllSubjects = async ({ search, page, order }) => {
 
 const getSubject = async ({ idClass }) => {
     const url = `${RoutesAPI.Subjects}/${idClass}`
+    const request = newRequest({ url, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const createSubject = async ({ data }) => {
+    const url = RoutesAPI.Subjects
+    const request = newRequest({ url, method: METHODS.Post, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const updateSubject = async ({ idClass, data }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}`
+    const request = newRequest({ url, method: METHODS.Patch, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const getSubjectStudents = async ({ idClass }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/students`
     const request = newRequest({ url, userToken: true })
     const response = await fetch(request)
     return await response.json()
@@ -39,11 +60,54 @@ const saveSubjectAttendance = async ({ idClass, data }) => {
     return await response.json()
 }
 
+const joinClassroomAsStudent = async ({idClass, idUser }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/students/${idUser}`
+    const request = newRequest({ url, method: METHODS.Post, contentType: CONTENT_TYPES.JSON , userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const leaveClassroomAsStudent = async ({idClass, idUser }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/students/${idUser}`
+    const request = newRequest({ url, method: METHODS.Delete, contentType: CONTENT_TYPES.JSON , userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const joinClassroomAsProfessor = async ({idClass, idUser }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/professors/${idUser}`
+    const request = newRequest({ url, method: METHODS.Post, contentType: CONTENT_TYPES.JSON , userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const leaveClassroomAsProfessor = async ({idClass, idUser }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/professors/${idUser}`
+    const request = newRequest({ url, method: METHODS.Delete, contentType: CONTENT_TYPES.JSON , userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const getSubjectTest = async ({ idClass, idTest }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/tests/${idTest}`
+    const request = newRequest({ url, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
 const SubjectServices = {
     getAllSubjects,
     getSubject,
+    createSubject,
+    updateSubject,
+    getSubjectStudents,
     getSubjectAttendance,
-    saveSubjectAttendance
+    saveSubjectAttendance,
+    joinClassroomAsProfessor,
+    leaveClassroomAsProfessor,
+    joinClassroomAsStudent,
+    leaveClassroomAsStudent,
+    getSubjectTest,
 }
 
 export default SubjectServices

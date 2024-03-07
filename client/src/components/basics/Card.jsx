@@ -1,6 +1,6 @@
-const Card = ({ title, body, footer, children, style }) => {
+export const Card = ({ title, body, footer, children, className, style }) => {
     return (
-        <div className='card rounded-4 border-0' style={style}>
+        <div className={`card ${className ?? ''}`} style={style}>
             {
                 title &&
                 <div className='card-title'>
@@ -26,4 +26,10 @@ const Card = ({ title, body, footer, children, style }) => {
     )
 }
 
-export default Card
+export const CardBody = ({ className, style, children }) => {
+    return (
+        <div className={`card-body ${className ?? ''}`} style={style}>
+            {children}
+        </div>
+    )
+}

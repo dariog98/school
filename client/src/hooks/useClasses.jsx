@@ -4,6 +4,7 @@ import useFetch from './useFetch'
 import { SubjectServices } from '../services'
 
 const useSubjects = ({ search } = {}) => {
+    console.log({search})
     const [page, setPage] = useState(1)
     const [order, setOrder] = useState({ id: ORDER.Ascending })
 

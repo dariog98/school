@@ -4,7 +4,7 @@ import { getStringDateInTimeZone } from '../constants/date'
 
 const useClassAttendance = ({ idClass, date }) => {
     const getClassAttedance = async () => {
-        return await SubjectServices.getSubjectAttendance({ idClass, date: getStringDateInTimeZone(date, 'UTC') })
+        return await SubjectServices.getSubjectAttendance({ idClass, date: date ? getStringDateInTimeZone(date, 'UTC') : '' })
     }
 
     const { isLoading, data, fechData: refreshData } = useFetch(getClassAttedance, [idClass, date])

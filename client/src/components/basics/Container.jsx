@@ -1,9 +1,14 @@
+import LoggedUser from './LoggedUser'
 import Navbar from './Navbar'
+import SkoolLogo from './SkoolLogo'
 
 const Container = ({ title, children }) => {
     return (
         <div className='d-flex flex-column gap-4'>
-            <Navbar title={title}/>
+            <Navbar>
+                <SkoolLogo/>
+                <LoggedUser/>
+            </Navbar>
             <div className='container'>
             {children}
             </div>

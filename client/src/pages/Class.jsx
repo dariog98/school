@@ -6,6 +6,7 @@ import ClassData from '../components/class/ClassData'
 import { Routes } from '../constants/routes'
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 import ClassTests from '../components/class/ClassTests'
+import ClassAttendances from '../components/class/ClassAttendances'
 
 const TABS = {
     Students: 'students',
@@ -17,7 +18,7 @@ const Subject = () => {
     const { id: idClass } = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
     const currentTab = searchParams.get('tab') ?? TABS.Students
-    const { data } = useClass({ idClass })
+    const { data, refreshData } = useClass({ idClass })
 
     const handleTab = (value) => {
         setSearchParams(params => {
@@ -31,7 +32,7 @@ const Subject = () => {
             {
                 data && data?.data &&
                 <div className='d-flex flex-column gap-3'>
-                    <ClassData data={data.data}/>
+                    <ClassData data={data.data} refreshData={refreshData}/>
 
                     <ul className='nav nav-tabs'>
                         <li className='nav-item' onClick={() => handleTab(TABS.Students)}>
@@ -46,8 +47,10 @@ const Subject = () => {
                     </ul>
 
                     <div>
-                        {currentTab === TABS.Students && <ClassStudents students={data.data.students}/>}
-                        {currentTab === TABS.Tests && <ClassTests tests={data.data.tests}/>}
+                        {currentTab === TABS.Students && <ClassStudents idClass={idClass} students={data.data.students} refreshData={refreshData}/>}
+                        {currentTab === TABS.Tests && <ClassTests idClass={idClass} tests={data.data.tests}/>}
+                        {currentTab === TABS.Attendances && <ClassAttendances idClass={idClass}/>}
+
                     </div>
                 </div>
             }

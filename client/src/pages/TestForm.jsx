@@ -1,17 +1,22 @@
-import { faArrowLeft, faArrowRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
-import { Button, Container, Input } from '../components/basics'
+import { faArrowLeft, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
+import { Button, ButtonLink, Container, Input, Title } from '../components/basics'
 import { useClassStudents, useTest, useTestForm } from '../hooks'
 import { useParams } from 'react-router-dom'
 import Loading from '../components/basics/Loading'
+import { Routes } from '../constants/routes'
+import { useSettingsContext } from '../components/providers/SettingsProvider'
 
 const getFormData = (data) => {
-    const { description, date, students } = data
-    const qualifications = students.reduce((acc, student) => {
-        acc[student.id] = student.qualification
-        return acc
-    }, {})
-    const formData = { description, date, ...qualifications }
-    return formData
+    if (data) {
+        const { description, date, students } = data
+        const qualifications = students.reduce((acc, student) => {
+            acc[student.id] = student.qualification
+            return acc
+        }, {})
+        const formData = { description, date, ...qualifications }
+        return formData
+    }
+    return {}
 }
 
 const Form = ({ idClass, idTest, data, students }) => {
@@ -114,21 +119,27 @@ const Form = ({ idClass, idTest, data, students }) => {
 }
 
 const Test = () => {
+    const { language } = useSettingsContext()
     const { id: idClass, test: idTest } = useParams()
-    const { data: testData, isLoading: isLoadingdTestData } = useTest({ idClass, idTest })
+    const { data: testData, isLoading: isLoadingTestData } = useTest({ idClass, idTest })
     
     return (
         <Container>
             {
-                isLoadingdTestData
+                isLoadingTestData
                 ? <Loading/>
-                : testData?.data ?
-                    <div>
-                        <h3 className='p-0 m-0'>Test</h3>
-                        <Form idClass={idClass} idTest={idTest} data={getFormData(testData.data)} students={testData.data.students}/>
-                    </div>
-                    :
-                    <></>
+                :
+                <div>
+                    <Title text='Test'>
+                        <ButtonLink
+                            to={`${Routes.Classes}/${idClass}?tab=tests`}
+                            className='btn-outline-system rounded-5'
+                            icon={faArrowLeft}
+                            text={language.buttons.GoBack}
+                        />
+                    </Title>
+                    <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={testData?.data?.students ?? []}/>
+                </div>
             }
         </Container>
     )

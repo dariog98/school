@@ -49,6 +49,8 @@ export const LANGUAGES = {
             ConnectionError: 'Connection error',
             ClassCreated: 'Class created successfully',
             ClassUpdated: 'Class updated successfully',
+            TestCreated: 'Test created successfully',
+            TestUpdated: 'Test updated successfully',
         },
         roles: {
             1: 'Admin',

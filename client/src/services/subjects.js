@@ -95,6 +95,20 @@ const getSubjectTest = async ({ idClass, idTest }) => {
     return await response.json()
 }
 
+const createSubjectTest = async ({ idClass, data }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/tests`
+    const request = newRequest({ url, method: METHODS.Post, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const updateSubjectTest = async ({ idClass, idTest, data }) => {
+    const url = `${RoutesAPI.Subjects}/${idClass}/tests/${idTest}`
+    const request = newRequest({ url, method: METHODS.Patch, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
 const SubjectServices = {
     getAllSubjects,
     getSubject,
@@ -108,6 +122,8 @@ const SubjectServices = {
     joinClassroomAsStudent,
     leaveClassroomAsStudent,
     getSubjectTest,
+    createSubjectTest,
+    updateSubjectTest,
 }
 
 export default SubjectServices

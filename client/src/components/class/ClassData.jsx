@@ -1,5 +1,5 @@
-import { faPlus, faUserMinus, faUserPlus } from '@fortawesome/free-solid-svg-icons'
-import { Button } from '../basics'
+import { faPen, faPlus, faUserMinus, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { Button, ButtonLink } from '../basics'
 import { useUserContext } from '../providers/UserProvider'
 import { Link } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
@@ -36,10 +36,9 @@ const ClassData = ({ data, refreshData }) => {
     }
 
     return (
-        <div>
-            <div className='fs-4'>{data.description}</div>
+        <div className='d-flex justify-content-between'>
             <div className='d-flex justify-content-between gap-3'>
-                <div className='flex-grow-1 d-grid gap-3' style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
+                <div className='flex-grow-1 gap-3' style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
                     <div>
                         <div className='fw-bold'>Professors</div>
                         <div>
@@ -60,7 +59,7 @@ const ClassData = ({ data, refreshData }) => {
                     <div>
                         <div>
                             <div className='fw-bold'>Students</div>
-                            <div className='d-flex justify-content-end'>
+                            <div className='d-flex'>
                                 <div>{`Total ${String(data.totalStudents).padStart(2, '0')}`}</div>
                             </div>
                         </div>
@@ -68,7 +67,7 @@ const ClassData = ({ data, refreshData }) => {
                     <div>
                         <div>
                             <div className='fw-bold'>Classes</div>
-                            <div className='d-flex justify-content-end'>
+                            <div className='d-flex'>
                                 <div>{`Total ${String(data.totalClasses).padStart(2, '0')}`}</div>
                             </div>
                         </div>
@@ -92,6 +91,15 @@ const ClassData = ({ data, refreshData }) => {
                         )
                     }
                 </div>
+            </div>
+
+            <div>
+                <ButtonLink
+                    to={`${Routes.Classes}/${data.id}/edit`}
+                    className='btn-outline-secondary rounded-5'
+                    icon={faPen}
+                    text='Edit'
+                />
             </div>
         </div>
     )

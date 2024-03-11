@@ -8,7 +8,22 @@ export const LANGUAGES = {
         days: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado' ],
     },
     EN: {
+        titles: {
+            Classes: 'Classes',
+            NewClass: 'New Class'
+        },
+        rows: {
+            Username: 'Username',
+            Password: 'Password',
+            Description: 'Description',
+        },
+        buttons: {
+            Add: 'Add',
+            GoBack: 'Go back',
+            Save: 'Save',
+        },
         messages: {
+            Welcome: 'Welcome',
             NoResults: 'No results found',
             Loading: 'Loading...',
             LogIn: 'Login',
@@ -24,6 +39,7 @@ export const LANGUAGES = {
             UserUpdated: 'Your profile has been updated successfully',
             UserNotFound: 'User not found',
             InvalidPassword: 'Invalid password',
+            LoginSuccess: 'Login succesfully',
             ConfirmDelete: 'Do you confirm that you want to delete the following item?',
             DNIDuplicatedError: 'The DNI entered already exists',
             DescriptionDuplicatedError: 'The description entered already exists',
@@ -31,6 +47,8 @@ export const LANGUAGES = {
             AnErrorOcurred: 'An error ocurred',
             PageNotFound: 'Page not found',
             ConnectionError: 'Connection error',
+            ClassCreated: 'Class created successfully',
+            ClassUpdated: 'Class updated successfully',
         },
         roles: {
             1: 'Admin',

@@ -2,11 +2,31 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { SubjectServices } from '../services'
 import { useNavigate } from 'react-router-dom'
+import { useNotificationsContext } from '../components/providers/NotificationsProvider'
+import { useSettingsContext } from '../components/providers/SettingsProvider'
 
 const useClassForm = ({ idClass, data }) => {
+    const { language } = useSettingsContext()
     const [isLoading, setLoading] = useState(false)
     const form = useForm({ defaultValues: data })
     const navigate = useNavigate()
+    const {
+        addCreatedSuccessfullyNotification,
+        addUpdatedSuccessfullyNotification,
+        //addRemovedSuccessfullyNotification,
+        addWarningNotification
+    } = useNotificationsContext()
+
+    const ResponseHandler = {
+        201: () => {
+            addCreatedSuccessfullyNotification(language.messages.ClassCreated)
+            setTimeout(() => navigate(-1), 1000)
+        },
+        200: () => {
+            addUpdatedSuccessfullyNotification(language.messages.ClassUpdated)
+            setTimeout(() => navigate(-1), 1000)
+        }
+    }
 
     const handleConfirm = async (data) => {
         try {
@@ -14,19 +34,15 @@ const useClassForm = ({ idClass, data }) => {
             // Create
             if (!idClass) {
                 const response = await SubjectServices.createSubject({ data })
-                if (response.status === 201) {
-                    setTimeout(() => navigate(-1), 1000)
-                }
+                ResponseHandler[response.status]()
             // Update
             } else {
-                console.log({ data })
                 const response = await SubjectServices.updateSubject({ idClass, data })
-                if (response.status === 200) {
-                    setTimeout(() => navigate(-1), 1000)
-                }
+                ResponseHandler[response.status]()
             }
         } catch (error) {
             console.log(error)
+            addWarningNotification(language.messages.ConnectionError)
         } finally {
             setLoading(false)
         }

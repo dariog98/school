@@ -1,7 +1,9 @@
 import { Button, Card, Input, Password, Navbar, SkoolLogo } from '../components/basics'
+import { useSettingsContext } from '../components/providers/SettingsProvider'
 import { useLogin, useSwitch } from '../hooks'
 
 const Login = () => {
+    const { language } = useSettingsContext()
     const { form } = useLogin()
     const { mode, toggleSwitch } = useSwitch()
 
@@ -19,17 +21,17 @@ const Login = () => {
                         <div className='d-flex flex-column gap-3'>
 
                             <div className='text-center'>
-                                <span className='fw-bolder fs-2'>Welcome</span>
+                                <span className='fw-bolder fs-2'>{language.messages.Welcome}</span>
                             </div>
 
                             <Input
-                                label='Username'
+                                label={language.rows.Username}
                                 name='username'
                                 form={form}
                             />
 
                             <Password
-                                label='Password'
+                                label={language.rows.Password}
                                 name='password'
                                 form={form}
                                 see={mode}
@@ -39,7 +41,7 @@ const Login = () => {
                             <div className='mt-3'>
                             <Button
                                 className='btn-primary w-100'
-                                text='Login'
+                                text={language.messages.LogIn}
                                 handleOnClick={form.handleSubmit}
                             />
                             </div>

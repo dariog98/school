@@ -2,20 +2,19 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { UserProvider } from './components/providers/UserProvider'
 import { SettingsProvider } from './components/providers/SettingsProvider'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { NotificationsProvider } from './components/providers/NotificationsProvider'
 import App from './App'
 
 const root = createRoot(document.getElementById('app'))
-const queryClient = new QueryClient()
 
 root.render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <SettingsProvider>
+        <SettingsProvider>
+            <NotificationsProvider>
                 <UserProvider>
                     <App/>
                 </UserProvider>
-            </SettingsProvider>
-        </QueryClientProvider>
+            </NotificationsProvider>
+        </SettingsProvider>
     </React.StrictMode>
 )

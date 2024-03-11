@@ -1,9 +1,9 @@
 import { Button, SkoolLogo } from '../components/basics'
 import { Link } from 'react-router-dom'
 import { Routes } from '../constants/routes'
-import background from '../../public/md-duran-1VqHRwxcCCw-unsplash.jpg'
 import { useUserContext } from '../components/providers/UserProvider'
 import LoggedUser from '../components/basics/LoggedUser'
+import background from '../../public/md-duran-1VqHRwxcCCw-unsplash.jpg'
 
 const HomeNavbar = ({ children }) => {
     return (

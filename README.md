@@ -2,7 +2,7 @@
 
 Class management, student attendance and tests
 
-[Live demo](https://medicapp-nu.vercel.app)
+[Live demo](https://school-ochre.vercel.app/login)
 
 ![UI-attendances](https://raw.githubusercontent.com/dariog98/school/main/resources/UI-attendances.png)
 

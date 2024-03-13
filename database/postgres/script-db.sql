@@ -52,6 +52,7 @@ create table professor_subject (
 );
 
 create table attendances (
+    id serial primary key,
     student_id int not null,
     subject_id int not null,
     date date not null,

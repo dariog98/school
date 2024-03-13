@@ -4,7 +4,7 @@ import { useLogin, useSwitch } from '../hooks'
 
 const Login = () => {
     const { language } = useSettingsContext()
-    const { form } = useLogin()
+    const { isLoading, form } = useLogin()
     const { mode, toggleSwitch } = useSwitch()
 
     return (
@@ -43,6 +43,8 @@ const Login = () => {
                                 className='btn-primary w-100'
                                 text={language.messages.LogIn}
                                 handleOnClick={form.handleSubmit}
+                                isLoading={isLoading}
+                                isDisabled={isLoading}
                             />
                             </div>
 

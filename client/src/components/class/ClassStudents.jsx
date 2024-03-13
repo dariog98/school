@@ -7,6 +7,7 @@ import { useUserContext } from '../providers/UserProvider'
 import { USER_ROLES } from '../../constants/roles'
 import { useClassStudents, useSwitch } from '../../hooks'
 import { SubjectServices } from '../../services'
+import { useSettingsContext } from '../providers/SettingsProvider'
 
 const useDeleteStudent = ({ idClass, refreshData }) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -34,6 +35,7 @@ const useDeleteStudent = ({ idClass, refreshData }) => {
 }
 
 const ClassStudents = ({ idClass }) => {
+    const { language } = useSettingsContext()
     const { user } = useUserContext()
     const { mode, toggleSwitch } = useSwitch()
     const [search, setSearch] = useState('')
@@ -43,12 +45,12 @@ const ClassStudents = ({ idClass }) => {
     return (
         <div className='d-flex flex-column gap-3'>
             <div className='d-flex gap-3'>
-                <SearchBar placeholder='Search...' handleSearch={setSearch}/>
+                <SearchBar placeholder={language.messages.Search} handleSearch={setSearch}/>
 
                 <Button
                     className='btn-outline-secondary'
                     icon={faList}
-                    text='Edit'
+                    text={language.buttons.Edit}
                     handleOnClick={toggleSwitch}
                     isActived={mode}
                 />
@@ -81,7 +83,7 @@ const ClassStudents = ({ idClass }) => {
                     :
                     <div className='card shadow-sm bg-body-secondary'>
                         <div className='card-body'>
-                            There are no students enrolled in this class
+                            {language.messages.NoStudentsClass}
                         </div>
                     </div>
             }

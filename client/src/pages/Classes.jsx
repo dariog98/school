@@ -16,7 +16,7 @@ const Classes = () => {
                 <Title text='Classes'/>
 
                 <div className='d-flex gap-3'>
-                    <SearchBar placeholder='Search...' value={search.getItem()} handleSearch={search.setItem}/>
+                    <SearchBar placeholder={language.messages.Search} value={search.getItem()} handleSearch={search.setItem}/>
                     <ButtonLink
                         to={`${Routes.Classes}/new`}
                         className='btn-primary'

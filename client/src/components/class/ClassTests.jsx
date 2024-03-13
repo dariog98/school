@@ -4,8 +4,10 @@ import { ButtonLink, SearchBar } from '../basics'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useClassTests } from '../../hooks'
 import { useState } from 'react'
+import { useSettingsContext } from '../providers/SettingsProvider'
 
 const ClassTests = ({ idClass }) => {
+    const { language } = useSettingsContext()
     const [search, setSearch] = useState('')
     const { isLoading, data, refreshData } = useClassTests({ idClass, search })
 
@@ -13,14 +15,14 @@ const ClassTests = ({ idClass }) => {
         <div className='d-flex flex-column gap-3'>
             <div className='d-flex gap-3'>
                 <SearchBar
-                    placeholder='Search...'
+                    placeholder={language.messages.Search}
                     handleSearch={setSearch}
                 />
                 <ButtonLink
                     to={`${Routes.Classes}/${idClass}/tests/new`}
                     className='btn-primary'
                     icon={faPlus}
-                    text='Add'
+                    text={language.buttons.Add}
                 />
             </div>
 
@@ -38,7 +40,7 @@ const ClassTests = ({ idClass }) => {
                     :
                     <div className='card shadow-sm bg-body-secondary'>
                         <div className='card-body'>
-                            There are no tests in this class
+                            {language.messages.NoTestsClass}
                         </div>
                     </div>
             }

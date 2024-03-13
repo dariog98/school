@@ -1,15 +1,26 @@
 import { useState } from 'react'
 import { useClassAttendance } from '../../hooks'
-import { Loading, SearchBar } from '../basics'
+import { ButtonLink, Loading, SearchBar } from '../basics'
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
+import { Routes } from '../../constants/routes'
+import { useSettingsContext } from '../providers/SettingsProvider'
 
 const ClassAttendances = ({ idClass }) => {
+    const { language } = useSettingsContext()
     const [search, setSearch] = useState('')
     const { isLoading, data } = useClassAttendance({ idClass, search })
 
     return (
         <div className='d-flex flex-column gap-3'>
             <div className='d-flex gap-3'>
-                <SearchBar placeholder='Search...' handleSearch={setSearch}/>
+                <SearchBar placeholder={language.messages.Search} handleSearch={setSearch}/>
+
+                <ButtonLink
+                    to={`${Routes.Classes}/${idClass}/attendances`}
+                    className='btn-primary'
+                    icon={faCalendarDays}
+                    text={language.buttons.Add}
+                />
             </div>
             {
                 isLoading
@@ -36,7 +47,7 @@ const ClassAttendances = ({ idClass }) => {
                     :
                     <div className='card shadow-sm bg-body-secondary'>
                         <div className='card-body'>
-                            There are no students enrolled in this class
+                            {language.messages.NoStudentsClass}
                         </div>
                     </div>
             }

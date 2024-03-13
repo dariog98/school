@@ -15,7 +15,7 @@ const AddProfessorButton = () => {
         </div>
     )
 }
-
+/*
 const ClassData = ({ data, refreshData }) => {
     const { user } = useUserContext()
 
@@ -73,6 +73,87 @@ const ClassData = ({ data, refreshData }) => {
                         </div>
                     </div>
                 </div>
+                <div className='d-flex flex-column gap-2'>
+                    {
+                        user.role.id === USER_ROLES.Student && (
+                            data.students.map(s => s.id).includes(user.idUser) ?
+                            <Button
+                                className='btn-danger'
+                                icon={faUserMinus}
+                                text='Leave Class'
+                            />
+                            :
+                            <Button
+                                className='btn-success'
+                                icon={faUserPlus}
+                                text='Join Class'
+                            />
+                        )
+                    }
+                </div>
+            </div>
+
+            <div>
+                <ButtonLink
+                    to={`${Routes.Classes}/${data.id}/edit`}
+                    className='btn-outline-secondary rounded-5'
+                    icon={faPen}
+                    text='Edit'
+                />
+            </div>
+        </div>
+    )
+}
+
+export default ClassData
+
+*/
+
+const ClassData = ({ data, refreshData }) => {
+    const { user } = useUserContext()
+
+    return (
+        <div className='d-flex justify-content-between'>
+            <div className='d-flex justify-content-between gap-3'>
+                <div className='flex-grow-1 gap-3'>
+
+                    <div>
+                        <div className='fw-bold'>Professors</div>
+                        <div>
+                            <div className='d-flex flex-column align-items-end gap-1'>
+                                {
+                                    data.professors.length ?
+                                    data.professors.map(professor =>
+                                        <div key={professor.id} className='d-flex justify-content-between'>
+                                            <Link to={`${Routes.Users}/${professor.id}`} className='underline-on-hover'>
+                                                {`${professor.surnames} ${professor.names}`}
+                                            </Link>
+                                        </div>
+                                    )
+                                    : <div>
+                                        <span>No professors added to the class</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Total students</th>
+                                    <td className='text-end'>{data.totalStudents}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total classes taught</th>
+                                    <td className='text-end'>{data.totalClasses}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div className='d-flex flex-column gap-2'>
                     {
                         user.role.id === USER_ROLES.Student && (

@@ -22,10 +22,14 @@ const Attendance = sequelize.define(
         }
     }, 
     {
-        timestamps: false
-    }
+        timestamps: false,
+        indexes: [{
+            unique: true,
+            fields: ['student_id', 'subject_id', 'date']
+        }] 
+    },
 )
 
-Attendance.removeAttribute('id')
+//Attendance.removeAttribute('id')
 
 export default Attendance

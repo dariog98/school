@@ -6,29 +6,28 @@ import { catchedAsync } from '../utils/catchedAsync.js'
 const getAllClassrooms = async (request, response) => {
     const { search } = request.query
     const classrooms = await ClassroomServices.getAllClassrooms(search)
-    const responseBody = { response, statusCode: 200, data: classrooms }
-    sendResponse(responseBody)
+    sendResponse({ response, statusCode: 200, content: { data: classrooms } })
 }
 
 const getClassroom = async (request, response) => {
     const idClassroom = Number(request.params.id)
     const classroom = await ClassroomServices.getClassroomById(idClassroom)
     if (!classroom) throw new ClientError('Classroom not found', 404)    
-    sendResponse({ response, statusCode: 200, data: classroom })
+    sendResponse({ response, statusCode: 200, content: { data: classroom } })
 }
 
 const getClassroomStudents = async (request, response) => {
     const idClassroom = Number(request.params.id)
     const { search } = request.query
     const { total, data }= await ClassroomServices.getClassroomStudents(idClassroom, search, ['id', 'ASC'])
-    sendResponse({ response, statusCode: 200, data, total })
+    sendResponse({ response, statusCode: 200, content: { data, total } })
 }
 
 const getClassroomStudent = async (request, response) => {
     const idClassroom = Number(request.params.id)
     const idStudent = Number(request.params.student)
     const student = await ClassroomServices.getClassroomStudent(idClassroom, idStudent)
-    sendResponse({ response, statusCode: 200, data: student })
+    sendResponse({ response, statusCode: 200, content: { data: student } })
 }
 
 const createClassroom = async (request, response) => {
@@ -47,8 +46,8 @@ const updateClassroom = async (request, response) => {
 const getClassroomAttendance = async (request, response) => {
     const idClassroom = Number(request.params.id)
     const { date } = request.query
-    const { total, data }= await ClassroomServices.getClassroomAttendance(idClassroom, date, ['id', 'ASC'])
-    sendResponse({ response, statusCode: 200, total, data })
+    const { total, data, attendancesStatus } = await ClassroomServices.getClassroomAttendance(idClassroom, date, ['id', 'ASC'])
+    sendResponse({ response, statusCode: 200, content: { total, data, attendancesStatus } })
 }
 
 const saveClassroomAttendance = async (request, response) => {
@@ -62,14 +61,14 @@ const getClassroomTests = async (request, response) => {
     const idClassroom = Number(request.params.id)
     const { date } = request.query
     const { total, data }= await ClassroomServices.getClassroomTests(idClassroom, ['id', 'ASC'])
-    sendResponse({ response, statusCode: 200, total, data })
+    sendResponse({ response, statusCode: 200, content: { total, data } })
 }
 
 const getClassroomTest = async (request, response) => {
     const idClassroom = Number(request.params.id)
     const idTest = Number(request.params.test)
     const data = await ClassroomServices.getClassroomTest(idClassroom, idTest)
-    sendResponse({ response, statusCode: 200, data })
+    sendResponse({ response, statusCode: 200, content: { data } })
 }
 
 const createClassroomTest = async (request, response) => {

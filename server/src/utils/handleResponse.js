@@ -1,10 +1,8 @@
-const sendResponse = ({ response, statusCode, status, message, data, total, totalPages }) => {
+const sendResponse = ({ response, statusCode, status, message, content }) => {
     response.status(statusCode).send({
         status: status ?? statusCode,
         message,
-        totalPages,
-        total,
-        data,
+        ...content
     }).end()
 }
 

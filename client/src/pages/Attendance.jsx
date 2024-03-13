@@ -34,7 +34,7 @@ const Attendance = () => {
                     <AttendanceCalendar currentDate={date} handleDate={handleDate}/>
 
                     {
-                        (!isLoading && data) && data.status === 'saved' ?
+                        (!isLoading && data) && data.attendancesStatus === 'saved' ?
                         <div className='alert alert-primary'>
                             <div className='d-flex gap-3 align-items-center'>
                                 <FontAwesomeIcon icon={faFloppyDisk} style={{ width: '1.5rem', height: '1.5rem' }}/>

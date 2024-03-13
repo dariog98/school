@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
-import { Button, SearchBar } from '../basics'
+import { ButtonLink, SearchBar } from '../basics'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const ClassTests = ({ idClass, tests }) => {
@@ -11,7 +11,8 @@ const ClassTests = ({ idClass, tests }) => {
                 <SearchBar
                     placeholder='Search...'
                 />
-                <Button
+                <ButtonLink
+                    to={`${Routes.Classes}/${idClass}/tests/new`}
                     className='btn-primary'
                     icon={faPlus}
                     text='Add'

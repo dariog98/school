@@ -27,6 +27,7 @@ export const LANGUAGES = {
             NoResults: 'No results found',
             Loading: 'Loading...',
             LogIn: 'Login',
+            GetStarted: 'Get Started',
             YearsOld: 'Years old',
             NotNullable: 'The field cannot be empty',
             FieldRequired: 'The field is required',

@@ -6,7 +6,7 @@ import SkoolLogo from './SkoolLogo'
 
 const Container = ({ title, children }) => {
     return (
-        <div className='d-flex flex-column gap-4'>
+        <div className='d-flex flex-column'>
             <Navbar>
                 <SkoolLogo/>
                 <div className='d-flex gap-3'>
@@ -18,7 +18,7 @@ const Container = ({ title, children }) => {
                     <LoggedUser/>
                 </div>
             </Navbar>
-            <div className='container'>
+            <div className='container my-4'>
             {children}
             </div>
         </div>

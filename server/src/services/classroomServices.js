@@ -71,7 +71,9 @@ const getClassroomAttendance = async (idClassroom, date, order) => {
             where: { subject_id: idClassroom, date },
             raw: true
         })
-        const status = rows[0].records > 0 ? 'saved' : 'unsaved'
+
+        const attendancesStatus = rows[0].records > 0 ? 'saved' : 'unsaved'
+
         const { count: total, rows: data } = await User.findAndCountAll({
             where: { id: studentsId },
             order: [ order ],
@@ -79,13 +81,12 @@ const getClassroomAttendance = async (idClassroom, date, order) => {
         })
         
         const records = data.map(row => {
-            const record = row.get()
-            record.attendance = record.attendances[0].status ? record.attendances[0] : null
-            delete record.attendances
-            return record
+            const { id, surnames, names, attendances } = row
+            const attendance = attendances.length > 0 ? attendances[0].status : null
+            return { id, surnames, names, status: attendance }
         })
 
-        return { total, data: records }
+        return { total, data: records, attendancesStatus }
     }
     
     const { count: total, rows } = await User.findAndCountAll({
@@ -94,7 +95,6 @@ const getClassroomAttendance = async (idClassroom, date, order) => {
         include: { model: Attendance, where: { subject_id: idClassroom }, required: false }
     })
 
-    /*
     const data = rows.map(student => {
         const { id, names, surnames, attendances } = student
         const totals = new Array(4).fill(0)
@@ -102,13 +102,18 @@ const getClassroomAttendance = async (idClassroom, date, order) => {
         attendances.map(attendance => totals[attendance.status] += 1)
         return { id, names, surnames, attendances: { total: totals[0], presents: totals[1], absents: totals[2], lates: totals[3] } }
     })
-    */
-    return { total, data: rows }
+
+    return { total, data }
 }
 
 const saveClassroomAttendance = async (idClassroom, date, attendances) => {
     try {
-        const records = attendances.map(attendance => ({ student_id: attendance.idStudent, subject_id: idClassroom, date, status: attendance.status }))
+        const records = attendances.map(attendance => ({
+            student_id: attendance.idStudent,
+            subject_id: idClassroom,
+            date,
+            status: attendance.status
+        }))
         await Attendance.bulkCreate(records, { updateOnDuplicate: ['status'] })    
     } catch(error) {
         console.log(error)
@@ -190,7 +195,6 @@ const updateClassroomTest = async (idClassroom, idTest, description, date, stude
         throw new ServerError('Server error')
     }
 }
-
 
 const addStudentToClassroom = async (idClassroom, idStudent) => {
     try {

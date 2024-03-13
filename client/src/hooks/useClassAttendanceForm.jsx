@@ -2,27 +2,40 @@ import { useForm } from 'react-hook-form'
 import { getStringDateInTimeZone } from '../constants/date'
 import { SubjectServices } from '../services'
 import { useState } from 'react'
+import { useNotificationsContext } from '../components/providers/NotificationsProvider'
+import { useSettingsContext } from '../components/providers/SettingsProvider'
 
 const useClassAttendanceForm = ({ idClass, date, data }) => {
+    const { language } = useSettingsContext()
+    const { addWarningNotification } = useNotificationsContext()
     const [isLoading, setLoading] = useState(false)
     const form = useForm({
         defaultValues: data.reduce((accumulator, current) => {
             const student = current
-            accumulator[student.id] = student?.attendance?.status ? String(student.attendance.status) : "1"
+            accumulator[student.id] = student.status ? String(student.status) : "1"
             return accumulator
         },{})
     })
-    const status = data.length && data[0].attendance !== null ? true : false
+
+    const ResponseHandler = {
+        200: () => {
+            addCreatedSuccessfullyNotification(language.messages.ClassCreated)
+            setTimeout(() => navigate(-1), 1000)
+        },
+        500: () => {
+            addWarningNotification(language.messages.AnErrorOcurred)
+        }
+    }
 
     const handleConfirm = async (data) => {
         try {
             setLoading(true)
             const attendances = { date: getStringDateInTimeZone(date, 'UTC'), attendances: Object.keys(data).map(idStudent => ({ idStudent, status: data[idStudent] })) }
-            console.log({ idClass, data: attendances })
             const response = await SubjectServices.saveSubjectAttendance({ idClass, data: attendances })
-            console.log(response)
+            ResponseHandler[response.status]()
         } catch (error) {
             console.log(error)
+            addWarningNotification(language.messages.ConnectionError)
         } finally {
             setLoading(false)
         }
@@ -31,8 +44,7 @@ const useClassAttendanceForm = ({ idClass, date, data }) => {
     return {
         date,
         form: { ...form, handleSubmit: form.handleSubmit(handleConfirm) },
-        isLoading,
-        status
+        isLoading
     }
 }
 

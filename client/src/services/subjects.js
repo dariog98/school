@@ -35,15 +35,20 @@ const updateSubject = async ({ idClass, data }) => {
     return await response.json()
 }
 
-const getSubjectStudents = async ({ idClass }) => {
-    const url = `${RoutesAPI.Subjects}/${idClass}/students`
+const getSubjectStudents = async ({ idClass, search }) => {
+    const params = new URLSearchParams({
+        search: search ?? '',
+    })
+    
+    const url = `${RoutesAPI.Subjects}/${idClass}/students?${params.toString()}`
     const request = newRequest({ url, userToken: true })
     const response = await fetch(request)
     return await response.json()
 }
 
-const getSubjectAttendance = async ({ idClass, date }) => {
+const getSubjectAttendance = async ({ idClass, date, search }) => {
     const params = new URLSearchParams({
+        search: search ?? '',
         date: date,
     })
 
@@ -88,6 +93,17 @@ const leaveClassroomAsProfessor = async ({idClass, idUser }) => {
     return await response.json()
 }
 
+const getSubjectTests = async ({ idClass, search }) => {
+    const params = new URLSearchParams({
+        search: search ?? '',
+    })
+
+    const url = `${RoutesAPI.Subjects}/${idClass}/tests?${params.toString()}`
+    const request = newRequest({ url, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
 const getSubjectTest = async ({ idClass, idTest }) => {
     const url = `${RoutesAPI.Subjects}/${idClass}/tests/${idTest}`
     const request = newRequest({ url, userToken: true })
@@ -121,6 +137,7 @@ const SubjectServices = {
     leaveClassroomAsProfessor,
     joinClassroomAsStudent,
     leaveClassroomAsStudent,
+    getSubjectTests,
     getSubjectTest,
     createSubjectTest,
     updateSubjectTest,

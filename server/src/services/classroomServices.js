@@ -29,14 +29,28 @@ const getClassroomById = async (idClassroom) => {
 const getClassroomStudents = async (idClassroom, search = '', order) => {
     const [students] = await sequelize.query(`SELECT student_id as id from student_subject where subject_id = ${Number(idClassroom)}`)
     const studentsId = students.map(student => student.id)
-    const { count: total, rows: data } = await User.findAndCountAll({
+    const { count: total, rows } = await User.findAndCountAll({
         where: {
             [Op.and]: [
-                { id: studentsId },
+                { id: studentsId, is_deleted: false },
                 Sequelize.where(Sequelize.fn('concat', Sequelize.col('surnames'), ' ', Sequelize.col('names')), { [Op.iLike]: `%${search ?? ''}%` }),
             ]
         },
         order: [ order ]
+    })
+
+    const data = rows.map(student => {
+        const { id, surnames, names, dni, birthdate, mail, phone, address } = student
+        return {
+            id,
+            surnames,
+            names,
+            dni,
+            birthdate,
+            mail,
+            phone,
+            address
+        }
     })
     return { total, data }
 }
@@ -59,7 +73,7 @@ const getClassroomStudent = async (idClassroom, idStudent) => {
     return studentData
 }
 
-const getClassroomAttendance = async (idClassroom, date, order) => {
+const getClassroomAttendance = async (idClassroom, date, search, order) => {
     const [students] = await sequelize.query(`SELECT student_id as id from student_subject where subject_id = ${Number(idClassroom)}`)
     const studentsId = students.map(student => student.id)
 
@@ -90,7 +104,12 @@ const getClassroomAttendance = async (idClassroom, date, order) => {
     }
     
     const { count: total, rows } = await User.findAndCountAll({
-        where: { id: studentsId },
+        where: {
+            [Op.and]: [
+                { id: studentsId, is_deleted: false },
+                Sequelize.where(Sequelize.fn('concat', Sequelize.col('surnames'), ' ', Sequelize.col('names')), { [Op.iLike]: `%${search ?? ''}%` }),
+            ]
+        },
         order: [ order ],
         include: { model: Attendance, where: { subject_id: idClassroom }, required: false }
     })
@@ -121,8 +140,14 @@ const saveClassroomAttendance = async (idClassroom, date, attendances) => {
     }
 }
 
-const getClassroomTests = async (idClassroom, order) => {
-    const { count: total, rows: data } = await Test.findAndCountAll({ where: { subject_id: idClassroom }, order: [order]})
+const getClassroomTests = async (idClassroom, search = '', order) => {
+    const { count: total, rows: data } = await Test.findAndCountAll({
+        where: {
+            subject_id: idClassroom,
+            description: { [Op.iLike]: `%${search ?? ''}%` }
+        },
+        order: [order]
+    })
     return { total, data }
 }
 

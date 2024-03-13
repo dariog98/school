@@ -45,8 +45,8 @@ const updateClassroom = async (request, response) => {
 
 const getClassroomAttendance = async (request, response) => {
     const idClassroom = Number(request.params.id)
-    const { date } = request.query
-    const { total, data, attendancesStatus } = await ClassroomServices.getClassroomAttendance(idClassroom, date, ['id', 'ASC'])
+    const { date, search } = request.query
+    const { total, data, attendancesStatus } = await ClassroomServices.getClassroomAttendance(idClassroom, date, search, ['id', 'ASC'])
     sendResponse({ response, statusCode: 200, content: { total, data, attendancesStatus } })
 }
 
@@ -59,8 +59,8 @@ const saveClassroomAttendance = async (request, response) => {
 
 const getClassroomTests = async (request, response) => {
     const idClassroom = Number(request.params.id)
-    const { date } = request.query
-    const { total, data }= await ClassroomServices.getClassroomTests(idClassroom, ['id', 'ASC'])
+    const { search } = request.query   
+    const { total, data }= await ClassroomServices.getClassroomTests(idClassroom, search, ['id', 'ASC'])
     sendResponse({ response, statusCode: 200, content: { total, data } })
 }
 

@@ -15,12 +15,18 @@ const TABS = {
     Attendances: 'attendances',
 }
 
+const TAB_COMPONENTS = {
+    students: ClassStudents,
+    tests: ClassTests,
+    attendances: ClassAttendances,
+}
+
 const Subject = () => {
     const { id: idClass } = useParams()
     const { language } = useSettingsContext()
     const tab = useCustomSearchParams('tab')
-    const currentTab = tab.getItem() ?? TABS.Students
     const { data, refreshData } = useClass({ idClass })
+    const CurrentTab = TAB_COMPONENTS[tab.getItem() ?? TABS.Students]
     
     return (
         <Container title={data?.data.description ?? 'Class'}>
@@ -40,21 +46,17 @@ const Subject = () => {
 
                     <ul className='nav nav-tabs'>
                         <li className='nav-item' onClick={() => tab.setItem(TABS.Students)}>
-                            <span className={`nav-link ${currentTab === TABS.Students ? 'active' : ''}`}>Students</span>
+                            <span className={`nav-link ${tab.getItem() === TABS.Students ? 'active' : ''}`}>Students</span>
                         </li>
                         <li className='nav-item' onClick={() => tab.setItem(TABS.Tests)}>
-                            <span className={`nav-link ${currentTab === TABS.Tests ? 'active' : ''}`}>Tests</span>
+                            <span className={`nav-link ${tab.getItem() === TABS.Tests ? 'active' : ''}`}>Tests</span>
                         </li>
                         <li className='nav-item' onClick={() => tab.setItem(TABS.Attendances)}>
-                            <span className={`nav-link ${currentTab === TABS.Attendances ? 'active' : ''}`}>Attedances</span>
+                            <span className={`nav-link ${tab.getItem() === TABS.Attendances ? 'active' : ''}`}>Attedances</span>
                         </li>
                     </ul>
 
-                    <div>
-                        {currentTab === TABS.Students && <ClassStudents idClass={idClass} students={data.data.students} refreshData={refreshData}/>}
-                        {currentTab === TABS.Tests && <ClassTests idClass={idClass} tests={data.data.tests}/>}
-                        {currentTab === TABS.Attendances && <ClassAttendances idClass={idClass}/>}
-                    </div>
+                    <CurrentTab idClass={idClass}/>
                 </div>
             }
         </Container>

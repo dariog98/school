@@ -9,7 +9,7 @@ router.patch('/:id', ClassroomControllers.updateClassroom)
 
 router.get('/:id', ClassroomControllers.getClassroom)
 router.get('/:id/students', ClassroomControllers.getClassroomStudents)
-router.get('/:id/students/:student', ClassroomControllers.getClassroomStudent)
+//router.get('/:id/students/:student', ClassroomControllers.getClassroomStudent)
 router.post('/:id/students/:student', ClassroomControllers.addStudentToClassroom)
 router.delete('/:id/students/:student', ClassroomControllers.removeStudentToClassroom)
 

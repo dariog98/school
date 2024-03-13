@@ -19,8 +19,10 @@ export const LANGUAGES = {
         },
         buttons: {
             Add: 'Add',
-            GoBack: 'Go back',
+            Edit: 'Edit',
+            Delete: 'Delete',
             Save: 'Save',
+            GoBack: 'Go back',
         },
         messages: {
             Welcome: 'Welcome',
@@ -28,6 +30,7 @@ export const LANGUAGES = {
             Loading: 'Loading...',
             LogIn: 'Login',
             GetStarted: 'Get Started',
+            Search: 'Search...',
             YearsOld: 'Years old',
             NotNullable: 'The field cannot be empty',
             FieldRequired: 'The field is required',
@@ -52,6 +55,8 @@ export const LANGUAGES = {
             ClassUpdated: 'Class updated successfully',
             TestCreated: 'Test created successfully',
             TestUpdated: 'Test updated successfully',
+            NoStudentsClass: 'There are no students enrolled in this class',
+            NoTestsClass: 'There are no tests in this class'
         },
         roles: {
             1: 'Admin',

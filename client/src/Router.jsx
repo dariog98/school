@@ -1,11 +1,12 @@
 import { Routes } from './constants/routes'
 import { createBrowserRouter } from 'react-router-dom'
-import { Attendance, Class, ClassForm, Classes, EditProfile, Home, Login, Test, User } from './pages'
+import { Attendance, Class, ClassForm, Classes, EditProfile, Home, Login, Test, User, NotFound } from './pages'
 import ProtectedUserRoute from './components/protect/ProtectedUserRoute'
 
 const router = createBrowserRouter([
     {
         path: Routes.Home,
+        errorElement: (<NotFound/>),
         children: [
             {
                 element: <ProtectedUserRoute/>,

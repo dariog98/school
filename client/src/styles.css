@@ -1,3 +1,7 @@
+:root {
+    --navbar-height: 4rem;
+}
+
 * {
     font-family: 'Space Grotesk';
 }
@@ -172,4 +176,17 @@ a {
 
 .underline {
     text-decoration: underline;
+}
+
+input[type=number] {
+    appearance: textfield;
+}
+
+.navbar {
+    height: var(--navbar-height);
+    background: #473aa0;
+}
+
+.max-content {
+    height: calc(100vh - var(--navbar-height));
 }

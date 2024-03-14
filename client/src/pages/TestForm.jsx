@@ -13,7 +13,7 @@ const getFormData = (data) => {
             acc[student.id] = student.qualification
             return acc
         }, {})
-        const formData = { description, date, ...qualifications }
+        const formData = { description, date, students: qualifications }
         return formData
     }
     return {}
@@ -41,12 +41,6 @@ const Form = ({ idClass, idTest, data, students }) => {
 
             <div className='d-flex align-items-center justify-content-between'>
                 <div>Participants</div>
-                {/*<div>
-                    <Button
-                        className='btn-secondary'
-                        text='Add all students'
-                    />
-                </div>*/}
             </div>
 
             <div className='d-flex flex-column gap-2'>
@@ -55,15 +49,21 @@ const Form = ({ idClass, idTest, data, students }) => {
                     <small className='text-secondary'>Qualification</small>
                 </div>
                 {
-                    students.map(student =>
-                        <div key={student.id} className='d-flex align-items-center justify-content-between'>
-                            {`${student.surnames} ${student.names}`}
+                    students.map((student, index) =>
+                        <div key={student.id} className={`flex-grow-1 card shadow-sm ${index % 2 ? 'bg-body-secondary' : ''}`}>
+                            <div className='py-2 px-3'>
+                                <div className='d-flex align-items-center justify-content-between'>
+                                    {`${student.surnames} ${student.names}`}
 
-                            <Input
-                                form={form}
-                                name={String(student.id)}
-                                type='number'
-                            />
+                                    <div style={{ maxWidth: '4rem' }}>
+                                        <Input
+                                            form={form}
+                                            name={`students.${String(student.id)}`}
+                                            type='number'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )
                 }

@@ -74,6 +74,9 @@ const getClassroomStudent = async (idClassroom, idStudent) => {
 }
 
 const getClassroomAttendance = async (idClassroom, date, search, order) => {
+    const classroom = await Classroom.findOne({ where: { id: idClassroom }})
+    if (!classroom) throw new ClientError('Classroom not found', 404)
+    
     const [students] = await sequelize.query(`SELECT student_id as id from student_subject where subject_id = ${Number(idClassroom)}`)
     const studentsId = students.map(student => student.id)
 

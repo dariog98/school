@@ -1,11 +1,8 @@
 import { useParams } from 'react-router-dom'
-import { ButtonLink, Container, Title } from '../components/basics'
+import { ButtonLink, Container, Loading, MainContainer, NotFound, Title } from '../components/basics'
 import { useClass, useCustomSearchParams } from '../hooks'
-import ClassStudents from '../components/class/ClassStudents'
-import ClassData from '../components/class/ClassData'
+import { ClassAttendances, ClassData, ClassStudents, ClassTests } from '../components/class'
 import { Routes } from '../constants/routes'
-import ClassTests from '../components/class/ClassTests'
-import ClassAttendances from '../components/class/ClassAttendances'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
 
@@ -21,17 +18,27 @@ const TAB_COMPONENTS = {
     attendances: ClassAttendances,
 }
 
-const Subject = () => {
+const TabItem = ({ currentTab, tab, handleTab, name }) => {
+    return (
+        <li className='nav-item' onClick={() => handleTab(tab)}>
+            <span className={`nav-link ${currentTab === tab ? 'active' : ''}`}>{name}</span>
+        </li>
+    )
+}
+
+const Class = () => {
+    const tab = useCustomSearchParams('tab')
     const { id: idClass } = useParams()
     const { language } = useSettingsContext()
-    const tab = useCustomSearchParams('tab')
-    const { data, refreshData } = useClass({ idClass })
+    const { isLoading, data, refreshData } = useClass({ idClass })
     const CurrentTab = TAB_COMPONENTS[tab.getItem() ?? TABS.Students]
     
     return (
-        <Container title={data?.data.description ?? 'Class'}>
-            {
-                data && data?.data &&
+        isLoading
+        ? <Loading/>
+        : data?.data
+            ?
+            <Container>
                 <div className='d-flex flex-column gap-3'>
                     <Title text={data.data.description}>
                         <ButtonLink
@@ -45,22 +52,21 @@ const Subject = () => {
                     <ClassData data={data.data} refreshData={refreshData}/>
 
                     <ul className='nav nav-tabs'>
-                        <li className='nav-item' onClick={() => tab.setItem(TABS.Students)}>
-                            <span className={`nav-link ${tab.getItem() === TABS.Students ? 'active' : ''}`}>Students</span>
-                        </li>
-                        <li className='nav-item' onClick={() => tab.setItem(TABS.Tests)}>
-                            <span className={`nav-link ${tab.getItem() === TABS.Tests ? 'active' : ''}`}>Tests</span>
-                        </li>
-                        <li className='nav-item' onClick={() => tab.setItem(TABS.Attendances)}>
-                            <span className={`nav-link ${tab.getItem() === TABS.Attendances ? 'active' : ''}`}>Attedances</span>
-                        </li>
+                        <TabItem name='Students' currentTab={tab.getItem() ?? TABS.Students} tab={TABS.Students} handleTab={tab.setItem}/>
+                        <TabItem name='Tests' currentTab={tab.getItem()} tab={TABS.Tests} handleTab={tab.setItem}/>
+                        <TabItem name='Attendances' currentTab={tab.getItem()} tab={TABS.Attendances} handleTab={tab.setItem}/>
                     </ul>
 
                     <CurrentTab idClass={idClass}/>
                 </div>
-            }
-        </Container>
+            </Container>
+            :
+            <MainContainer>
+                <div className='max-content d-flex justify-content-center align-items-center'>
+                    <NotFound/>
+                </div>
+            </MainContainer>
     )
 }
 
-export default Subject
+export default Class

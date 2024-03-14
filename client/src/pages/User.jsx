@@ -11,55 +11,23 @@ const User = () => {
     const { user } = useUserContext()
     const { id: idUser } = useParams()
     const { isLoading, data } = useUser({ idUser })
-    /*
-    return (
-        <Container>
-            <div className='d-flex flex-column'>
-                {
-                    isLoading
-                    ? <Loading/>
-                    : data?.data
-                        ?
-                        <div className='d-flex flex-column gap-3'>
-                            <UserData data={data.data}/>
-                            {
-                                idUser === user.idUser &&
-                                <div>
-                                    <Button
-                                        className='btn-danger rounded-5'
-                                        text='Log out'
-                                        icon={faPowerOff}
-                                    />
-                                </div>
-                            }
 
-                            {data.data.role_id === USER_ROLES.Student && <UserClasses classes={data.data.classrooms}/>}
-                        </div>
-                        : <div className='max-content d-flex justify-content-center align-items-center'>
-                            <NotFound/>
-                        </div>
-                }
-            </div>
-        </Container>
-    )
-    */
+    if (data && data.status === 404) {
+        throw new Error('User not found')
+    }
+
     return (
         isLoading
         ? 
-        <Container>
-            <Loading/>
-        </Container>
-        : data?.data
-            ?
+        <MainContainer>
+            <div className='max-content d-flex justify-content-center align-items-center'>
+                <Loading/>
+            </div>
+        </MainContainer>
+        : data?.status === 200 && 
             <Container>
                 <UserData data={data.data}/>
             </Container>
-            :
-            <MainContainer>
-                <div className='max-content d-flex justify-content-center align-items-center'>
-                    <NotFound/>
-                </div>
-            </MainContainer>
     )
 }
 

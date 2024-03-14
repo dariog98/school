@@ -9,7 +9,7 @@ const Loading = ({ size }) =>{
     const { language } = useSettingsContext()
 
     return (
-        <div className='flex-grow-1 d-flex flex-column gap-3 justify-content-center align-items-center'>
+        <div className='d-flex flex-column gap-3 justify-content-center align-items-center'>
             <div className='spinner-border' style={SIZE[size] ?? SIZE.large}></div>
             <div>{language.messages.Loading}</div>
         </div>

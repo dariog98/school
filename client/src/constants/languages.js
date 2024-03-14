@@ -55,6 +55,7 @@ export const LANGUAGES = {
             ClassUpdated: 'Class updated successfully',
             TestCreated: 'Test created successfully',
             TestUpdated: 'Test updated successfully',
+            NoClasses: 'There are no registered classes',
             NoStudentsClass: 'There are no students enrolled in this class',
             NoTestsClass: 'There are no tests in this class'
         },

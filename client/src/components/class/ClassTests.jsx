@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
-import { ButtonLink, SearchBar } from '../basics'
+import { ButtonLink, Loading, SearchBar } from '../basics'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useClassTests } from '../../hooks'
 import { useState } from 'react'
@@ -28,8 +28,8 @@ const ClassTests = ({ idClass }) => {
 
             {
                 isLoading
-                ? <></>
-                : (data?.data && data?.data.length)
+                ? <Loading/>
+                : data?.data.length
                     ? data.data.map((test, index) =>
                         <Link key={test.id} to={`${Routes.Classes}/${idClass}/tests/${test.id}`} className={`card shadow-sm ${index % 2 ? 'bg-body-secondary' : ''}`}>
                             <div className='card-body'>

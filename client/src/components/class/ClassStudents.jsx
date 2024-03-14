@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
-import { Button, SearchBar } from '../basics'
+import { Button, Loading, SearchBar } from '../basics'
 import { faList, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useUserContext } from '../providers/UserProvider'
 import { USER_ROLES } from '../../constants/roles'
@@ -57,8 +57,8 @@ const ClassStudents = ({ idClass }) => {
             </div>
             {
                 isLoading
-                ? <></>
-                : (data?.data && data?.data.length)
+                ? <Loading/>
+                : data?.data.length
                     ? data.data.map((student, index) =>
                         <div key={student.id} className='d-flex gap-2'>
                             <Link to={`${Routes.Users}/${student.id}`} className={`flex-grow-1 card shadow-sm ${index % 2 ? 'bg-body-secondary' : ''}`}>

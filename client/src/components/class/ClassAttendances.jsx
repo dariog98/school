@@ -28,7 +28,7 @@ const ClassAttendances = ({ idClass }) => {
                 <div className='my-5'>
                     <Loading/>
                 </div>
-                : (data?.data && data?.data.length)
+                : data?.data.length
                     ?
                     <div className='d-flex flex-column gap-3'>
                         {

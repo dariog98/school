@@ -32,12 +32,20 @@ const Class = () => {
     const { language } = useSettingsContext()
     const { isLoading, data, refreshData } = useClass({ idClass })
     const CurrentTab = TAB_COMPONENTS[tab.getItem() ?? TABS.Students]
-    
+
+    if (data && data.status === 404) {
+        throw new Error('Class not found')
+    }
+
     return (
         isLoading
-        ? <Loading/>
-        : data?.data
-            ?
+        ?
+        <MainContainer>
+            <div className='max-content d-flex justify-content-center align-items-center'>
+                <Loading/>
+            </div>
+        </MainContainer>
+        : data?.status === 200 &&
             <Container>
                 <div className='d-flex flex-column gap-3'>
                     <Title text={data.data.description}>
@@ -60,12 +68,6 @@ const Class = () => {
                     <CurrentTab idClass={idClass}/>
                 </div>
             </Container>
-            :
-            <MainContainer>
-                <div className='max-content d-flex justify-content-center align-items-center'>
-                    <NotFound/>
-                </div>
-            </MainContainer>
     )
 }
 

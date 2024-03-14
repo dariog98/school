@@ -45,7 +45,7 @@ const Class = () => {
                 <Loading/>
             </div>
         </MainContainer>
-        : data?.status = 200 &&
+        : data?.status === 200 &&
             <Container>
                 <div className='d-flex flex-column gap-3'>
                     <Title text={data.data.description}>

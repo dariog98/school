@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Button, ButtonLink, Container, Loading, NotFound, SearchBar, Title } from '../components/basics'
+import { ButtonLink, Container, Loading, NotFound, SearchBar, Title } from '../components/basics'
 import { Routes } from '../constants/routes'
 import { useClasses, useCustomSearchParams } from '../hooks'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'

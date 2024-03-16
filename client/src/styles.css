@@ -97,6 +97,15 @@ a {
     overflow: hidden;
 }
 
+.home-banner {
+    height: 600px;
+    width: 600px;
+    background-image: url('./assets/md-duran-1VqHRwxcCCw_1920.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    mask-image: radial-gradient(circle, black 0%, transparent 80%);
+}
+
 .home-footer {
     background: #473aa0;
     height: 100px;

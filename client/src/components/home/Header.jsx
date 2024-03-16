@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Button, LoggedUser, SkoolLogo } from '../basics'
+import { ButtonLink, LoggedUser, SkoolLogo } from '../basics'
 import { Routes } from '../../constants/routes'
 import { useSettingsContext } from '../providers/SettingsProvider'
 import { useUserContext } from '../providers/UserProvider'
@@ -18,15 +18,17 @@ const HomeNavbar = ({ children }) => {
 }
 
 const GetStarted = () => {
+    const { language } = useSettingsContext()
     return (
         <div className='d-flex gap-3 align-items-center'>
             <div>
                 <span className='pe-1'>{'Have you an account?'.toLocaleUpperCase()}</span>
-                <Link to={Routes.Login} className='underline'>{'Log In'.toLocaleUpperCase()}</Link>
+                <Link to={Routes.Login} className='underline'>{language.messages.LogIn.toLocaleUpperCase()}</Link>
             </div>
-            <Button
-                className='btn-light'
-                text='GET STARTED'
+            <ButtonLink
+                to={Routes.Register}
+                className='btn-light rounded-5 fw-bold'
+                text={language.messages.GetStarted}
             />
         </div>
     )
@@ -43,8 +45,9 @@ const Header = () => {
             <div className='d-flex flex-column gap-3 text-light align-items-end'>
                 <h1 className='fw-bold'>Manage your school easily</h1>
                 <div>
-                    <Button
-                        className='btn-light text-uppercase'
+                    <ButtonLink
+                        to={Routes.Register}
+                        className='btn-light rounded-5 fw-bold'
                         text={language.messages.GetStarted}
                     />
                 </div>

@@ -1,6 +1,6 @@
 import { Routes } from './constants/routes'
 import { createBrowserRouter } from 'react-router-dom'
-import { Attendance, Class, ClassForm, Classes, EditProfile, Home, Login, Test, User, NotFound } from './pages'
+import { Attendance, Class, ClassForm, Classes, EditProfile, Home, Login, Test, User, NotFound, Register } from './pages'
 import ProtectedUserRoute from './components/protect/ProtectedUserRoute'
 
 const router = createBrowserRouter([
@@ -48,6 +48,10 @@ const router = createBrowserRouter([
             {
                 path: Routes.Login,
                 element: <Login/>,
+            },
+            {
+                path: Routes.Register,
+                element: <Register/>,
             },
             {
                 path: Routes.Home,

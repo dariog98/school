@@ -13,8 +13,11 @@ export const LANGUAGES = {
             NewClass: 'New Class'
         },
         rows: {
+            Surnames: 'Surnames',
+            Names: 'Names',
             Username: 'Username',
             Password: 'Password',
+            ConfirmPassword: 'Confirm Password',
             Description: 'Description',
         },
         buttons: {
@@ -26,9 +29,12 @@ export const LANGUAGES = {
         },
         messages: {
             Welcome: 'Welcome',
+            WelcomeStudent: 'Welcome, student!',
             NoResults: 'No results found',
             Loading: 'Loading...',
             LogIn: 'Login',
+            LogOut: 'Logout',
+            Register: 'Register',
             GetStarted: 'Get Started',
             Search: 'Search...',
             YearsOld: 'Years old',
@@ -57,7 +63,9 @@ export const LANGUAGES = {
             TestUpdated: 'Test updated successfully',
             NoClasses: 'There are no registered classes',
             NoStudentsClass: 'There are no students enrolled in this class',
-            NoTestsClass: 'There are no tests in this class'
+            NoTestsClass: 'There are no tests in this class',
+            JoinClass: 'Joined class successfully',
+            LeaveClass: 'Left class succesfully',
         },
         roles: {
             1: 'Admin',

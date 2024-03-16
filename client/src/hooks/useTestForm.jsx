@@ -45,6 +45,7 @@ const useTestForm = ({ idClass, idTest, data }) => {
             }
         } catch (error) {
             console.log(error)
+            addWarningNotification(language.messages.ConnectionError)
         } finally {
             setIsLoading(false)
         }

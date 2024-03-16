@@ -1,14 +1,11 @@
-import { Button, Container, Loading, MainContainer, Navbar, NotFound } from '../components/basics'
+import { Container, Loading, MainContainer, Title } from '../components/basics'
 import { useParams } from 'react-router-dom'
 import { useUser } from '../hooks'
 import UserData from '../components/user/UserData'
-import UserClasses from '../components/user/UserClasses'
-import { USER_ROLES } from '../constants/roles'
-import { faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import { useUserContext } from '../components/providers/UserProvider'
+import { useSettingsContext } from '../components/providers/SettingsProvider'
 
 const User = () => {
-    const { user } = useUserContext()
+    const { language } = useSettingsContext()
     const { id: idUser } = useParams()
     const { isLoading, data } = useUser({ idUser })
 
@@ -26,6 +23,10 @@ const User = () => {
         </MainContainer>
         : data?.status === 200 && 
             <Container>
+                <div className='d-flex flex-column gap-3'>
+                    <Title text={`${data.data.surnames ?? ''} ${data.data.names ?? ''}`}/>
+                    <small className='text-uppercase text-secondary'>{language.roles[data.data.role_id]}</small>
+                </div>
                 <UserData data={data.data}/>
             </Container>
     )

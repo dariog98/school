@@ -19,6 +19,9 @@ export const LANGUAGES = {
             Password: 'Password',
             ConfirmPassword: 'Confirm Password',
             Description: 'Description',
+            DNI: 'DNI',
+            Birthdate: 'Birthdate',
+            Mail: 'Email'
         },
         buttons: {
             Add: 'Add',
@@ -66,6 +69,7 @@ export const LANGUAGES = {
             NoTestsClass: 'There are no tests in this class',
             JoinClass: 'Joined class successfully',
             LeaveClass: 'Left class succesfully',
+            AccountCreated: 'New account created successfully'
         },
         roles: {
             1: 'Admin',

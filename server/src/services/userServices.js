@@ -1,7 +1,8 @@
 import { ClientError, ServerError } from '../constants/errors.js'
-import { compare } from '../utils/handleBcrypt.js'
+import { compare, encrypt } from '../utils/handleBcrypt.js'
 import { User } from '../models/index.js'
 import { tokenSign } from '../utils/handleToken.js'
+import { USER_ROLES } from '../constants/userRoles.js'
 
 const tokenSecretKey = process.env.JWT_SECRET
 const refreshTokenSecretKey = process.env.JWT_RT_SECRET
@@ -42,12 +43,18 @@ const loginUser = async (username, password) => {
     return data
 }
 
-const registerUser = async (data) => {
-    const { names, surnames, username, mail, dni, birthdate, phone, address, idRole: role_id } = data
-
+const createUser = async (surnames, names, username, password, dni, mail, birthdate, phone, address, idRole) => {
     try {
-        await User.create({ names, surnames, username, mail, dni, birthdate, phone, address, role_id })
+        const passwordHash = await encrypt(password)
+        await User.create({ names, surnames, username, password: passwordHash, dni, mail, birthdate, phone, address, role_id: idRole })
     } catch(error) {
+        //console.log(error)
+        const errorCode = error.original.code
+        if (Number(errorCode) === 23505) {
+            if (error.fields.username) throw new ClientError('Username is duplicate', 409, 1001)
+            if (error.fields.dni) throw new ClientError('DNI is duplicate', 409, 1002)
+            if (error.fields.mail) throw new ClientError('Mail is duplicate', 409, 1003)
+        }
         throw new ServerError('Server error')
     }
 }
@@ -77,7 +84,7 @@ const getUserById = async (idUser) => {
 
 const UserServices = {
     loginUser,
-    registerUser,
+    createUser,
     updateUser,
     getUserById
 }

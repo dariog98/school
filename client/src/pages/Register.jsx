@@ -44,6 +44,18 @@ const Register = () => {
                                 name='username'
                                 form={form}
                             />
+                            
+                            <Input
+                                label={language.rows.DNI}
+                                name='dni'
+                                form={form}
+                            />
+
+                            <Input
+                                label={language.rows.Mail}
+                                name='mail'
+                                form={form}
+                            />
 
                             <Password
                                 label={language.rows.Password}

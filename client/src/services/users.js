@@ -8,6 +8,27 @@ const loginUser = async (data) => {
     return await response.json()
 }
 
+const createStudent = async (data) => {
+    const url = `${RoutesAPI.Register}/student`
+    const request = newRequest({ url, method: METHODS.Post, contentType: CONTENT_TYPES.JSON, body: data })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const createProfessor = async (data) => {
+    const url = `${RoutesAPI.Register}/professor`
+    const request = newRequest({ url, method: METHODS.Post, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
+const createAdmin = async (data) => {
+    const url = `${RoutesAPI.Register}/admin`
+    const request = newRequest({ url, method: METHODS.Post, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
+    const response = await fetch(request)
+    return await response.json()
+}
+
 const changePassword = async (data) => {
     const url = RoutesAPI.Password
     const request = newRequest({ url, method: METHODS.Patch, contentType: CONTENT_TYPES.JSON, body: data, userToken: true })
@@ -32,7 +53,10 @@ const getUser = async ({ idUser }) => {
 const UserServices = {
     loginUser,
     getUser,
-    updateUser
+    updateUser,
+    createAdmin,
+    createProfessor,
+    createStudent
 }
 
 export default UserServices

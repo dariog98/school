@@ -4,11 +4,17 @@ import User from './user.js'
 import Classroom from './classroom.js'
 import Attendance from './attendance.js'
 import Role from './role.js'
-import Test from './test.js'
+import Test from './exam.js'
 
 const Student_Classroom = sequelize.define(
     'student_subject',
-    {},
+    {
+        is_banned: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        }
+    },
     {
         timestamps: false,
         tableName: 'student_subject'

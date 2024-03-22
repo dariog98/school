@@ -20,9 +20,8 @@ const useRegister = () => {
 
     const ResponseHandler = {
         201: (response) => {
-            addNotification({ icon: faUser, message: language.messages.RegisterSuccess })
+            addNotification({ icon: faUser, message: language.messages.AccountCreated })
             setTimeout(() => {
-                handleLogIn(response.data)
                 navigate(Routes.Login)
             }, 1000)
         }
@@ -31,7 +30,8 @@ const useRegister = () => {
     const handleConfirm = async (data) => {
         try {
             setIsLoading(true)
-            const response = await UserServices.registerStudent(data)
+            const { surnames, names, username, dni, mail, password } = data
+            const response = await UserServices.createStudent({ surnames, names, username, dni, mail, password })
             ResponseHandler[response.status](response)
         } catch (error) {
             addWarningNotification(language.messages.ConnectionError)

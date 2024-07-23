@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { Routes } from '../constants/routes'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
 import ParticipantsModal from '../components/tests/ParticipantsModal'
+import { useUserContext } from '../components/providers/UserProvider'
 
 const getFormData = (data) => {
     if (data) {
@@ -95,6 +96,51 @@ const Form = ({ idClass, idTest, data, students }) => {
     )
 }
 
+const TestData = ({ data }) => {
+    const { user } = useUserContext()
+    const student = data.students.find(student => student.id === user.idUser)
+    console.log({ data, student })
+    return (
+        <div className='d-flex flex-column gap-3'>
+            <Input
+                label='Description'
+                type='text'
+                name='description'
+                value={data.description}
+                isReadOnly={true}
+            />
+
+            <Input
+                label='Date'
+                type='date'
+                name='date'
+                value={data.date}
+                isReadOnly={true}
+            />
+
+            <div className='d-flex flex-column gap-2'>
+                <div>Qualification</div>
+                <div className='flex-grow-1 card shadow-sm bg-body-secondary'>
+                    <div className='py-2 px-3'>
+                        <div className='d-flex align-items-center justify-content-between'>
+                            {`${student.surnames} ${student.names}`}
+
+                            <div style={{ maxWidth: '4rem' }}>
+                                <Input
+                                    name={`students.${String(student.id)}.qualification`}
+                                    type='number'
+                                    value={student.qualification}
+                                    isReadOnly={true}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 const Test = () => {
     const { language } = useSettingsContext()
     const { id: idClass, test: idTest } = useParams()
@@ -116,7 +162,10 @@ const Test = () => {
                             text={language.buttons.GoBack}
                         />
                     </Title>
+                    {/*
                     <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={studentsData?.data ?? []}/>
+                    */}
+                    {testData && <TestData data={testData?.data}/>}
                 </div>
             }
         </Container>

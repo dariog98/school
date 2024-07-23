@@ -47,13 +47,16 @@ const ClassStudents = ({ idClass }) => {
             <div className='d-flex gap-3'>
                 <SearchBar placeholder={language.messages.Search} handleSearch={setSearch}/>
 
-                <Button
-                    className='btn-outline-secondary'
-                    icon={faList}
-                    text={language.buttons.Edit}
-                    handleOnClick={toggleSwitch}
-                    isActived={mode}
-                />
+                { 
+                    [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id) &&
+                    <Button
+                        className='btn-outline-secondary'
+                        icon={faList}
+                        text={language.buttons.Edit}
+                        handleOnClick={toggleSwitch}
+                        isActived={mode}
+                    />
+                }
             </div>
             {
                 isLoading
@@ -68,7 +71,7 @@ const ClassStudents = ({ idClass }) => {
                             </Link>
         
                             {
-                                (user.role.id !== USER_ROLES.Student && mode) &&
+                                mode &&
                                 <Button
                                     className='btn-outline-system'
                                     icon={faTrash}
@@ -77,7 +80,6 @@ const ClassStudents = ({ idClass }) => {
                                     isDisabled={isLoadingDelete}
                                 />
                             }
-        
                         </div>
                     )
                     :

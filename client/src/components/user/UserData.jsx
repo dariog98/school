@@ -6,7 +6,7 @@ import { Routes } from '../../constants/routes'
 import { useUserContext } from '../providers/UserProvider'
 
 const UserData = ({ data }) => {
-    const { user } = useUserContext()
+    const { user, handleLogOut } = useUserContext()
     const { language } = useSettingsContext()
 
     return (
@@ -61,7 +61,7 @@ const UserData = ({ data }) => {
                             className='btn-outline-danger rounded-5'
                             text={language.messages.LogOut}
                             icon={faPowerOff}
-                            //to={`${Routes.LogOut}`}
+                            handleOnClick={handleLogOut}
                         />
                     </>
                 }

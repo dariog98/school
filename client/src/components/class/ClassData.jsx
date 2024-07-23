@@ -157,16 +157,19 @@ const ClassData = ({ idClass, data }) => {
             </div>
 
             <div className='d-flex flex-column gap-2'>
-                <ButtonLink
-                    to={`${Routes.Classes}/${data.id}/edit`}
-                    className='btn-outline-secondary rounded-5'
-                    icon={faPen}
-                    text='Edit'
-                />
+                {
+                    [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id) &&
+                    <ButtonLink
+                        to={`${Routes.Classes}/${data.id}/edit`}
+                        className='btn-outline-secondary rounded-5'
+                        icon={faPen}
+                        text='Edit'
+                    />
+                }
 
                 {
                     user.role.id === USER_ROLES.Student && (
-                        data.students.map(s => s.id).includes(user.idUser)
+                        data.students.map(student => student.id).includes(user.idUser)
                             ?
                             <Button
                                 className='btn-outline-danger rounded-5'

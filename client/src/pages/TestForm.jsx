@@ -6,6 +6,7 @@ import { Routes } from '../constants/routes'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
 import ParticipantsModal from '../components/tests/ParticipantsModal'
 import { useUserContext } from '../components/providers/UserProvider'
+import { USER_ROLES } from '../constants/roles'
 
 const getFormData = (data) => {
     if (data) {
@@ -21,6 +22,7 @@ const getFormData = (data) => {
 }
 
 const Form = ({ idClass, idTest, data, students }) => {
+    const { language } = useSettingsContext()
     const { form, isLoading } = useTestForm({ idClass, idTest, data })
     const { show, handleClose, handleOpen } = useModal()
 
@@ -44,9 +46,9 @@ const Form = ({ idClass, idTest, data, students }) => {
                 <div>Participants</div>
 
                 <Button
-                    className='btn-primary'
+                    className='btn-primary rounded-5'
                     icon={faUserPlus}
-                    text='Add'
+                    text={language.buttons.Add}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     handleOnClick={handleOpen}
@@ -83,9 +85,9 @@ const Form = ({ idClass, idTest, data, students }) => {
             
             <div className='d-flex justify-content-end gap-3'>
                 <Button
-                    className='btn-success'
+                    className='btn-success rounded-5'
                     icon={faFloppyDisk}
-                    text='Save'
+                    text={language.buttons.Save}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     handleOnClick={form.handleSubmit}
@@ -99,7 +101,7 @@ const Form = ({ idClass, idTest, data, students }) => {
 const TestData = ({ data }) => {
     const { user } = useUserContext()
     const student = data.students.find(student => student.id === user.idUser)
-    console.log({ data, student })
+
     return (
         <div className='d-flex flex-column gap-3'>
             <Input
@@ -142,6 +144,7 @@ const TestData = ({ data }) => {
 }
 
 const Test = () => {
+    const { user } = useUserContext()
     const { language } = useSettingsContext()
     const { id: idClass, test: idTest } = useParams()
     const { data: testData, isLoading: isLoadingTestData } = useTest({ idClass, idTest })
@@ -162,10 +165,11 @@ const Test = () => {
                             text={language.buttons.GoBack}
                         />
                     </Title>
-                    {/*
-                    <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={studentsData?.data ?? []}/>
-                    */}
-                    {testData && <TestData data={testData?.data}/>}
+                    {
+                        [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id)
+                        ? <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={studentsData?.data ?? []}/>
+                        : testData && <TestData data={testData?.data}/>
+                    }
                 </div>
             }
         </Container>

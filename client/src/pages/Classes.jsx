@@ -24,7 +24,7 @@ const Classes = () => {
                         [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id) &&
                         <ButtonLink
                             to={`${Routes.Classes}/new`}
-                            className='btn-primary'
+                            className='btn-primary rounded-5'
                             icon={faPlus}
                             text={language.buttons.Add}
                         />

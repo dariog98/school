@@ -50,7 +50,7 @@ const ClassStudents = ({ idClass }) => {
                 { 
                     [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id) &&
                     <Button
-                        className='btn-outline-secondary'
+                        className='btn-outline-secondary rounded-5'
                         icon={faList}
                         text={language.buttons.Edit}
                         handleOnClick={toggleSwitch}

@@ -4,11 +4,13 @@ import { SubjectServices } from '../services'
 import { useNavigate } from 'react-router-dom'
 import { useNotificationsContext } from '../components/providers/NotificationsProvider'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
+import { schemaClass } from '../constants/schemas'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const useClassForm = ({ idClass, data }) => {
     const { language } = useSettingsContext()
     const [isLoading, setLoading] = useState(false)
-    const form = useForm({ defaultValues: data })
+    const form = useForm({ defaultValues: data, resolver: yupResolver(schemaClass) })
     const navigate = useNavigate()
     const {
         addCreatedSuccessfullyNotification,

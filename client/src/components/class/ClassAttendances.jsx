@@ -4,8 +4,11 @@ import { ButtonLink, Loading, SearchBar } from '../basics'
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import { Routes } from '../../constants/routes'
 import { useSettingsContext } from '../providers/SettingsProvider'
+import { useUserContext } from '../providers/UserProvider'
+import { USER_ROLES } from '../../constants/roles'
 
 const ClassAttendances = ({ idClass }) => {
+    const { user } = useUserContext()
     const { language } = useSettingsContext()
     const [search, setSearch] = useState('')
     const { isLoading, data } = useClassAttendance({ idClass, search })
@@ -14,13 +17,15 @@ const ClassAttendances = ({ idClass }) => {
         <div className='d-flex flex-column gap-3'>
             <div className='d-flex gap-3'>
                 <SearchBar placeholder={language.messages.Search} handleSearch={setSearch}/>
-
-                <ButtonLink
-                    to={`${Routes.Classes}/${idClass}/attendances`}
-                    className='btn-primary'
-                    icon={faCalendarDays}
-                    text={language.buttons.Add}
-                />
+                {
+                    [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id) &&
+                    <ButtonLink
+                        to={`${Routes.Classes}/${idClass}/attendances`}
+                        className='btn-primary rounded-5'
+                        icon={faCalendarDays}
+                        text={language.buttons.Add}
+                    />
+                }
             </div>
             {
                 isLoading

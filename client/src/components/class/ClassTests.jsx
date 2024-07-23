@@ -5,8 +5,11 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useClassTests } from '../../hooks'
 import { useState } from 'react'
 import { useSettingsContext } from '../providers/SettingsProvider'
+import { USER_ROLES } from '../../constants/roles'
+import { useUserContext } from '../providers/UserProvider'
 
 const ClassTests = ({ idClass }) => {
+    const { user } = useUserContext()
     const { language } = useSettingsContext()
     const [search, setSearch] = useState('')
     const { isLoading, data, refreshData } = useClassTests({ idClass, search })
@@ -18,12 +21,15 @@ const ClassTests = ({ idClass }) => {
                     placeholder={language.messages.Search}
                     handleSearch={setSearch}
                 />
-                <ButtonLink
-                    to={`${Routes.Classes}/${idClass}/tests/new`}
-                    className='btn-primary rounded-5'
-                    icon={faPlus}
-                    text={language.buttons.Add}
-                />
+                {
+                    [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id) &&
+                    <ButtonLink
+                        to={`${Routes.Classes}/${idClass}/tests/new`}
+                        className='btn-primary rounded-5'
+                        icon={faPlus}
+                        text={language.buttons.Add}
+                    />
+                }
             </div>
 
             {

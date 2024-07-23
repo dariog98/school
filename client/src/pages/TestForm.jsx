@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom'
 import { Routes } from '../constants/routes'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
 import ParticipantsModal from '../components/tests/ParticipantsModal'
+import { useUserContext } from '../components/providers/UserProvider'
+import { USER_ROLES } from '../constants/roles'
 
 const getFormData = (data) => {
     if (data) {
@@ -20,6 +22,7 @@ const getFormData = (data) => {
 }
 
 const Form = ({ idClass, idTest, data, students }) => {
+    const { language } = useSettingsContext()
     const { form, isLoading } = useTestForm({ idClass, idTest, data })
     const { show, handleClose, handleOpen } = useModal()
 
@@ -43,9 +46,9 @@ const Form = ({ idClass, idTest, data, students }) => {
                 <div>Participants</div>
 
                 <Button
-                    className='btn-primary'
+                    className='btn-primary rounded-5'
                     icon={faUserPlus}
-                    text='Add'
+                    text={language.buttons.Add}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     handleOnClick={handleOpen}
@@ -82,9 +85,9 @@ const Form = ({ idClass, idTest, data, students }) => {
             
             <div className='d-flex justify-content-end gap-3'>
                 <Button
-                    className='btn-success'
+                    className='btn-success rounded-5'
                     icon={faFloppyDisk}
-                    text='Save'
+                    text={language.buttons.Save}
                     isLoading={isLoading}
                     isDisabled={isLoading}
                     handleOnClick={form.handleSubmit}
@@ -95,7 +98,53 @@ const Form = ({ idClass, idTest, data, students }) => {
     )
 }
 
+const TestData = ({ data }) => {
+    const { user } = useUserContext()
+    const student = data.students.find(student => student.id === user.idUser)
+
+    return (
+        <div className='d-flex flex-column gap-3'>
+            <Input
+                label='Description'
+                type='text'
+                name='description'
+                value={data.description}
+                isReadOnly={true}
+            />
+
+            <Input
+                label='Date'
+                type='date'
+                name='date'
+                value={data.date}
+                isReadOnly={true}
+            />
+
+            <div className='d-flex flex-column gap-2'>
+                <div>Qualification</div>
+                <div className='flex-grow-1 card shadow-sm bg-body-secondary'>
+                    <div className='py-2 px-3'>
+                        <div className='d-flex align-items-center justify-content-between'>
+                            {`${student.surnames} ${student.names}`}
+
+                            <div style={{ maxWidth: '4rem' }}>
+                                <Input
+                                    name={`students.${String(student.id)}.qualification`}
+                                    type='number'
+                                    value={student.qualification}
+                                    isReadOnly={true}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 const Test = () => {
+    const { user } = useUserContext()
     const { language } = useSettingsContext()
     const { id: idClass, test: idTest } = useParams()
     const { data: testData, isLoading: isLoadingTestData } = useTest({ idClass, idTest })
@@ -116,7 +165,11 @@ const Test = () => {
                             text={language.buttons.GoBack}
                         />
                     </Title>
-                    <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={studentsData?.data ?? []}/>
+                    {
+                        [USER_ROLES.Admin, USER_ROLES.Professor].includes(user.role.id)
+                        ? <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={studentsData?.data ?? []}/>
+                        : testData && <TestData data={testData?.data}/>
+                    }
                 </div>
             }
         </Container>

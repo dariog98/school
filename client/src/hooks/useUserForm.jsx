@@ -5,12 +5,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
 import { useNotificationsContext } from '../components/providers/NotificationsProvider'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { schemaUser } from '../constants/schemas'
 
 const useUserForm = () => {
     const { language } = useSettingsContext()
     const [isLoading, setIsLoading] = useState(false)
     const { user, handleLogIn } = useUserContext()
-    const form = useForm({ defaultValues: user })
+    const form = useForm({ defaultValues: user, resolver: yupResolver(schemaUser) })
     const navigate = useNavigate()
     const {
         addUpdatedSuccessfullyNotification,

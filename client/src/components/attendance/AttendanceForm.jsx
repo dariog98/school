@@ -3,12 +3,15 @@ import { useClassAttendanceForm } from '../../hooks'
 import { Button } from '../basics'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getStringDateInLanguageTimeZone } from '../../constants/date'
+import { useSettingsContext } from '../providers/SettingsProvider'
 
 const style = { width: '2rem', height: '1.25rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }
 const ArrowIcon = { width: '2rem', height: '2rem', margin: 0 }
 
-const AttendanceForm = ({ idClass, date, students, handlePrevDate, handleNextDate }) => {
-    const { form, isLoading, status } = useClassAttendanceForm({ idClass, date, data: students })
+const AttendanceForm = ({ idClass, date, status, students, handlePrevDate, handleNextDate }) => {
+    console.log({status})
+    const { language } = useSettingsContext()
+    const { form, isLoading } = useClassAttendanceForm({ idClass, date, data: students })
 
     return (
         <>
@@ -16,9 +19,9 @@ const AttendanceForm = ({ idClass, date, students, handlePrevDate, handleNextDat
                 <span className='fw-bolder'>{getStringDateInLanguageTimeZone(date, 'EN', 'UTC')}</span>
                 <div className='d-flex gap-3'>
                     {
-                        status &&
+                        true &&
                         <div
-                            className='d-flex justify-content-center align-items-center rounded-5 border'
+                            className='d-flex justify-content-center align-items-center text-light bg-body-violet rounded-5'
                             style={ArrowIcon}
                             title='Saved'
                         >
@@ -73,8 +76,8 @@ const AttendanceForm = ({ idClass, date, students, handlePrevDate, handleNextDat
 
             <div className='d-flex justify-content-end gap-2'>
                 <Button
-                    className='btn-primary'
-                    text='Save'
+                    className='btn-violet rounded-5'
+                    text={language.buttons.Save}
                     handleOnClick={form.handleSubmit}
                     icon={faFloppyDisk}
                     isLoading={isLoading}

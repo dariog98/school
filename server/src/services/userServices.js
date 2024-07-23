@@ -2,7 +2,6 @@ import { ClientError, ServerError } from '../constants/errors.js'
 import { compare, encrypt } from '../utils/handleBcrypt.js'
 import { User } from '../models/index.js'
 import { tokenSign } from '../utils/handleToken.js'
-import { USER_ROLES } from '../constants/userRoles.js'
 
 const tokenSecretKey = process.env.JWT_SECRET
 const refreshTokenSecretKey = process.env.JWT_RT_SECRET
@@ -60,7 +59,7 @@ const createUser = async (surnames, names, username, password, dni, mail, birthd
 }
 
 const updateUser = async (idUser, surnames, names, dni, birthdate, phone, address) => {
-    const user = await User.findOne({ where: { id: idUser } })
+    const user = await User.findOne({ where: { id: idUser }, include: ['role'] })
     if (!user) throw new ClientError('User not found', 404)
 
     try {
@@ -68,7 +67,6 @@ const updateUser = async (idUser, surnames, names, dni, birthdate, phone, addres
         const data = await createUserDataAndTokens(user)
         return data
     } catch(error) {
-        console.log(error)
         throw new ServerError('Server error')
     }
 }

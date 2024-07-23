@@ -4,7 +4,7 @@ import { faCircleExclamation, faFloppyDisk } from '@fortawesome/free-solid-svg-i
 const AttendanceStatus = ({ status }) => {
     return (
         status === 'saved' ?
-        <div className='alert alert-primary'>
+        <div className='alert alert-violet'>
             <div className='d-flex gap-3 align-items-center'>
                 <FontAwesomeIcon icon={faFloppyDisk} style={{ width: '1.5rem', height: '1.5rem' }}/>
                 Saved

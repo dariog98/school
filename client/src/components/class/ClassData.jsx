@@ -137,7 +137,7 @@ const ClassData = ({ idClass, data }) => {
                             </div>
                         </div>
                     </div>
-                
+                    {/*
                     <div>
                         <table>
                             <tbody>
@@ -152,6 +152,7 @@ const ClassData = ({ idClass, data }) => {
                             </tbody>
                         </table>
                     </div>
+                    */}
                 </div>
             </div>
 

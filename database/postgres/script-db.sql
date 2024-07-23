@@ -74,7 +74,8 @@ create table tests (
 create table student_test (
     student_id int not null,
     test_id int not null,
-    qualification int null,
+    qualification int not null default 0,
+    is_enabled boolean not null default false,
     constraint fk_student_test_student_id foreign key (student_id) references users(id),
     constraint fk_student_test_test_id foreign key (test_id) references tests(id),
     unique (student_id, test_id)

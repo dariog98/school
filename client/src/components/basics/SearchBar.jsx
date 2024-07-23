@@ -18,14 +18,14 @@ const SearchBar = ({ placeholder, handleSearch, value }) => {
     return (
         <>
             <div className='input-group'>
-                <label className='input-group-text'>
+                <label className='input-group-text rounded-left-5'>
                     <FontAwesomeIcon icon={faMagnifyingGlass} size='1x'/>
                 </label>
 
                 <input
                     ref={searchRef}
                     type='text'
-                    className='form-control'
+                    className='form-control rounded-right-5'
                     placeholder={placeholder}
                     onKeyDown={handleEnter}
                 />

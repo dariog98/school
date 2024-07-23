@@ -1,3 +1,5 @@
+import { ClassAttendances } from "../components/class";
+
 export const LANGUAGES = {
     ES: {
         roles: {
@@ -60,6 +62,7 @@ export const LANGUAGES = {
             AnErrorOcurred: 'An error ocurred',
             PageNotFound: 'Page not found',
             ConnectionError: 'Connection error',
+            ClassAttendancesSaved: 'Class attendances saved successfully',
             ClassCreated: 'Class created successfully',
             ClassUpdated: 'Class updated successfully',
             TestCreated: 'Test created successfully',

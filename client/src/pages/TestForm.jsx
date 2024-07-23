@@ -1,16 +1,16 @@
-import { faArrowLeft, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
-import { Button, ButtonLink, Container, Input, Title } from '../components/basics'
-import { useClassStudents, useTest, useTestForm } from '../hooks'
+import { faArrowLeft, faFloppyDisk, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { Button, ButtonLink, Container, Input, Title, Loading } from '../components/basics'
+import { useClassStudents, useModal, useTest, useTestForm } from '../hooks'
 import { useParams } from 'react-router-dom'
-import Loading from '../components/basics/Loading'
 import { Routes } from '../constants/routes'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
+import ParticipantsModal from '../components/tests/ParticipantsModal'
 
 const getFormData = (data) => {
     if (data) {
         const { description, date, students } = data
         const qualifications = students.reduce((acc, student) => {
-            acc[student.id] = student.qualification
+            acc[student.id] = { qualification: student.qualification, enabled: student.isEnabled ?? false }
             return acc
         }, {})
         const formData = { description, date, students: qualifications }
@@ -21,7 +21,7 @@ const getFormData = (data) => {
 
 const Form = ({ idClass, idTest, data, students }) => {
     const { form, isLoading } = useTestForm({ idClass, idTest, data })
-    const { data: studentsData } = useClassStudents({ idClass })
+    const { show, handleClose, handleOpen } = useModal()
 
     return (
         <div className='d-flex flex-column gap-3'>
@@ -41,6 +41,15 @@ const Form = ({ idClass, idTest, data, students }) => {
 
             <div className='d-flex align-items-center justify-content-between'>
                 <div>Participants</div>
+
+                <Button
+                    className='btn-primary'
+                    icon={faUserPlus}
+                    text='Add'
+                    isLoading={isLoading}
+                    isDisabled={isLoading}
+                    handleOnClick={handleOpen}
+                />
             </div>
 
             <div className='d-flex flex-column gap-2'>
@@ -49,7 +58,7 @@ const Form = ({ idClass, idTest, data, students }) => {
                     <small className='text-secondary'>Qualification</small>
                 </div>
                 {
-                    students.map((student, index) =>
+                    students.filter(student => form.getValues(`students.${String(student.id)}.enabled`)).map((student, index) =>
                         <div key={student.id} className={`flex-grow-1 card shadow-sm ${index % 2 ? 'bg-body-secondary' : ''}`}>
                             <div className='py-2 px-3'>
                                 <div className='d-flex align-items-center justify-content-between'>
@@ -58,7 +67,7 @@ const Form = ({ idClass, idTest, data, students }) => {
                                     <div style={{ maxWidth: '4rem' }}>
                                         <Input
                                             form={form}
-                                            name={`students.${String(student.id)}`}
+                                            name={`students.${String(student.id)}.qualification`}
                                             type='number'
                                         />
                                     </div>
@@ -69,40 +78,8 @@ const Form = ({ idClass, idTest, data, students }) => {
                 }
             </div>
 
-            {/*
-            <div className='d-grid gap-3' style={{ gridTemplateColumns: '2fr 1fr 2fr'}}>
-                <div className='card'>
-                    <div className='card-body d-flex flex-column gap-3'>
-                        {
-                            studentsData?.data &&
-                            studentsData.data.map(student =>
-                            <div className='card'>
-                                <div className='card-body'>
-                                    {`${student.surnames} ${student.names}`}
-                                </div>
-                            </div>
-                            )
-                        }
-
-                    </div>
-                </div>
-
-                <div className='d-flex flex-column gap-3 justify-content-center'>
-                    <Button
-                        className='btn-outline-secondary'
-                        icon={faArrowLeft}
-                    />
-                    <Button
-                        className='btn-outline-secondary'
-                        icon={faArrowRight}
-                    />
-                </div>
-
-                <div className='card'>
-                    <div className='card-body'></div>
-                </div>
-            </div>
-            */}
+            <ParticipantsModal show={show} handleClose={handleClose} form={form} students={students}/>
+            
             <div className='d-flex justify-content-end gap-3'>
                 <Button
                     className='btn-success'
@@ -122,7 +99,8 @@ const Test = () => {
     const { language } = useSettingsContext()
     const { id: idClass, test: idTest } = useParams()
     const { data: testData, isLoading: isLoadingTestData } = useTest({ idClass, idTest })
-    
+    const { data: studentsData } = useClassStudents({ idClass })
+
     return (
         <Container>
             {
@@ -138,7 +116,7 @@ const Test = () => {
                             text={language.buttons.GoBack}
                         />
                     </Title>
-                    <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={testData?.data?.students ?? []}/>
+                    <Form idClass={idClass} idTest={idTest} data={getFormData(testData?.data)} students={studentsData?.data ?? []}/>
                 </div>
             }
         </Container>

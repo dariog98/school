@@ -20,7 +20,7 @@ const ClassTests = ({ idClass }) => {
                 />
                 <ButtonLink
                     to={`${Routes.Classes}/${idClass}/tests/new`}
-                    className='btn-primary'
+                    className='btn-primary rounded-5'
                     icon={faPlus}
                     text={language.buttons.Add}
                 />

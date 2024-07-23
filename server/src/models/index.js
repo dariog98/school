@@ -8,13 +8,7 @@ import Test from './exam.js'
 
 const Student_Classroom = sequelize.define(
     'student_subject',
-    {
-        is_banned: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
-        }
-    },
+    {},
     {
         timestamps: false,
         tableName: 'student_subject'

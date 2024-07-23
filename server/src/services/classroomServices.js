@@ -167,7 +167,7 @@ const getClassroomTest = async (idClassroom, idTest) => {
             const { names, surnames, id, student_test: { qualification } } = student
 
             return {
-                id, names, surnames, qualification
+                id, names, surnames, qualification, isEnabled: qualification ? true : false
             }
         })
     }

@@ -29,6 +29,7 @@ const Attendance = () => {
                             idClass={idClass}
                             date={date}
                             students={data.data}
+                            status={data.attendanceStatus}
                             handleNextDate={goToNextDate}
                             handlePrevDate={goToPrevDate}
                         />
@@ -36,7 +37,7 @@ const Attendance = () => {
 
                     <div className='d-flex flex-column gap-3'>
                         <AttendanceCalendar currentDate={date} handleDate={dateParam.setItem}/>
-                        <AttendanceStatus status={data.attendanceStatus}/>
+                        <AttendanceStatus status={'saved'}/>
                     </div>
                 </div>
             </Container>

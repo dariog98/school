@@ -3,9 +3,9 @@ import { Button, ButtonLink } from '../basics'
 import { useUserContext } from '../providers/UserProvider'
 import { Link } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
-import { SubjectServices } from '../../services'
 import { USER_ROLES } from '../../constants/roles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import  { useStudentClass } from '../../hooks'
 
 const AddProfessorButton = () => {
     return (
@@ -109,14 +109,14 @@ export default ClassData
 
 */
 
-const ClassData = ({ data, refreshData }) => {
+const ClassData = ({ idClass, data }) => {
     const { user } = useUserContext()
+    const { isLoading, handleJoin, handleLeave } = useStudentClass()
 
     return (
         <div className='d-flex justify-content-between'>
             <div className='d-flex justify-content-between gap-3'>
                 <div className='flex-grow-1 gap-3'>
-
                     <div>
                         <div className='fw-bold'>Professors</div>
                         <div>
@@ -137,7 +137,7 @@ const ClassData = ({ data, refreshData }) => {
                             </div>
                         </div>
                     </div>
-                
+                    {/*
                     <div>
                         <table>
                             <tbody>
@@ -152,35 +152,41 @@ const ClassData = ({ data, refreshData }) => {
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                <div className='d-flex flex-column gap-2'>
-                    {
-                        user.role.id === USER_ROLES.Student && (
-                            data.students.map(s => s.id).includes(user.idUser) ?
-                            <Button
-                                className='btn-danger'
-                                icon={faUserMinus}
-                                text='Leave Class'
-                            />
-                            :
-                            <Button
-                                className='btn-success'
-                                icon={faUserPlus}
-                                text='Join Class'
-                            />
-                        )
-                    }
+                    */}
                 </div>
             </div>
 
-            <div>
+            <div className='d-flex flex-column gap-2'>
                 <ButtonLink
                     to={`${Routes.Classes}/${data.id}/edit`}
                     className='btn-outline-secondary rounded-5'
                     icon={faPen}
                     text='Edit'
                 />
+
+                {
+                    user.role.id === USER_ROLES.Student && (
+                        data.students.map(s => s.id).includes(user.idUser)
+                            ?
+                            <Button
+                                className='btn-outline-danger rounded-5'
+                                icon={faUserMinus}
+                                text='Leave Class'
+                                isLoading={isLoading}
+                                isDisabled={isLoading}
+                                handleOnClick={() => handleLeave(idClass)}
+                            />
+                            :
+                            <Button
+                                className='btn-outline-success rounded-5'
+                                icon={faUserPlus}
+                                text='Join Class'
+                                isLoading={isLoading}
+                                isDisabled={isLoading}
+                                handleOnClick={() => handleJoin(idClass)}
+                            />
+                    )
+                }
             </div>
         </div>
     )

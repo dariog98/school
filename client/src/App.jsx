@@ -8,9 +8,7 @@ import './bootstrap.css'
 import './styles.css'
 
 const App = () => {
-    return (
-        <RouterProvider router={router}/>
-    )
+    return <RouterProvider router={router}/>
 }
 
 export default App

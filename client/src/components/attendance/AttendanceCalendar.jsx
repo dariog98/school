@@ -45,7 +45,7 @@ const AttendanceCalendar = ({ currentDate, handleDate }) => {
                                     return (
                                         <Button
                                             key={dayIndex}
-                                            className={`${date.getUTCMonth() !== dateMonth.getUTCMonth() && 'text-secondary'} ${isActived ? 'btn-primary text-light' :'btn-outline-system'} rounded-circle border-0`}
+                                            className={`${date.getUTCMonth() !== dateMonth.getUTCMonth() && 'text-secondary'} ${isActived ? 'btn-violet text-light' :'btn-outline-system'} rounded-circle border-0`}
                                             text={dateMonth.getUTCDate()}
                                             handleOnClick={() => handleDate(getStringDateInTimeZone(dateMonth, 'UTC'))}
                                             style={buttonStyle}

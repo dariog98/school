@@ -1,3 +1,5 @@
+import { ClassAttendances } from "../components/class";
+
 export const LANGUAGES = {
     ES: {
         roles: {
@@ -13,9 +15,15 @@ export const LANGUAGES = {
             NewClass: 'New Class'
         },
         rows: {
+            Surnames: 'Surnames',
+            Names: 'Names',
             Username: 'Username',
             Password: 'Password',
+            ConfirmPassword: 'Confirm Password',
             Description: 'Description',
+            DNI: 'DNI',
+            Birthdate: 'Birthdate',
+            Mail: 'Email'
         },
         buttons: {
             Add: 'Add',
@@ -26,9 +34,12 @@ export const LANGUAGES = {
         },
         messages: {
             Welcome: 'Welcome',
+            WelcomeStudent: 'Welcome, student!',
             NoResults: 'No results found',
             Loading: 'Loading...',
             LogIn: 'Login',
+            LogOut: 'Logout',
+            Register: 'Register',
             GetStarted: 'Get Started',
             Search: 'Search...',
             YearsOld: 'Years old',
@@ -51,13 +62,17 @@ export const LANGUAGES = {
             AnErrorOcurred: 'An error ocurred',
             PageNotFound: 'Page not found',
             ConnectionError: 'Connection error',
+            ClassAttendancesSaved: 'Class attendances saved successfully',
             ClassCreated: 'Class created successfully',
             ClassUpdated: 'Class updated successfully',
             TestCreated: 'Test created successfully',
             TestUpdated: 'Test updated successfully',
             NoClasses: 'There are no registered classes',
             NoStudentsClass: 'There are no students enrolled in this class',
-            NoTestsClass: 'There are no tests in this class'
+            NoTestsClass: 'There are no tests in this class',
+            JoinClass: 'Joined class successfully',
+            LeaveClass: 'Left class succesfully',
+            AccountCreated: 'New account created successfully'
         },
         roles: {
             1: 'Admin',

@@ -1,3 +1,4 @@
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import { Button, Container, Input } from '../components/basics'
 import { useUserForm } from '../hooks'
 
@@ -52,6 +53,7 @@ const EditProfile = () => {
                 <div className='d-flex justify-content-end gap-3'>
                     <Button
                         className='btn-success'
+                        icon={faFloppyDisk}
                         text='Save'
                         isLoading={isLoading}
                         isDisabled={isLoading}

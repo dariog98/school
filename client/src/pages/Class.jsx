@@ -57,7 +57,7 @@ const Class = () => {
                         />
                     </Title>
 
-                    <ClassData data={data.data} refreshData={refreshData}/>
+                    <ClassData idClass={idClass} data={data.data} refreshData={refreshData}/>
 
                     <ul className='nav nav-tabs'>
                         <TabItem name='Students' currentTab={tab.getItem() ?? TABS.Students} tab={TABS.Students} handleTab={tab.setItem}/>

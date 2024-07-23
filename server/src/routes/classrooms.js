@@ -25,5 +25,4 @@ router.post('/:id/tests', ClassroomControllers.createClassroomTest)
 router.get('/:id/tests/:test', ClassroomControllers.getClassroomTest)
 router.patch('/:id/tests/:test', ClassroomControllers.updateClassroomTest)
 
-
-export default router
+export default (app) => app.use('/classrooms', router)

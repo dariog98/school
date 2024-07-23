@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom'
 import { useUserContext } from '../providers/UserProvider'
 import { Routes } from '../../constants/routes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
-
+import { faCircleUser, faUser } from '@fortawesome/free-solid-svg-icons'
+import Button from './Button'
+import ButtonLink from './ButtonLink'
+/*
 const LoggedUser = () => {
     const { user } = useUserContext()
 
@@ -17,6 +19,25 @@ const LoggedUser = () => {
                     </div>
                     <div>{`${user.surnames ?? ''} ${user.names ?? ''}`}</div>
                 </Link>
+            }
+        </div>
+    )
+}
+*/
+
+const LoggedUser = () => {
+    const { user } = useUserContext()
+
+    return (
+        <div className='d-flex align-items-center gap-2'>
+            {
+                user &&
+                <ButtonLink
+                    to={`${Routes.Users}/${user.idUser}`}
+                    className='btn-light rounded-5'
+                    icon={faCircleUser}
+                    text={`${user.surnames ?? ''} ${user.names ?? ''}`}
+                />
             }
         </div>
     )

@@ -9,6 +9,14 @@ const schemaLogin = yup.object({
     password: yup.string().required(language.messages.FieldRequired)
 })
 
+const schemaRegisterStudent = yup.object({
+    surnames: yup.string().required(language.messages.FieldRequired),
+    names: yup.string().required(language.messages.FieldRequired),
+    username: yup.string().required(language.messages.FieldRequired),
+    password: yup.string().required(language.messages.FieldRequired),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], language.messages.FieldsDoNotMatch).required(language.messages.FieldRequired),
+})
+
 const schemaTest = yup.object({
     description: yup.string().required(language.messages.FieldRequired),
     date: yup.date().nullable().typeError(language.messages.InvalidDate).required(language.messages.FieldRequired),
@@ -17,4 +25,5 @@ const schemaTest = yup.object({
 export {
     schemaLogin,
     schemaTest,
+    schemaRegisterStudent
 }

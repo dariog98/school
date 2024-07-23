@@ -4,10 +4,11 @@ import { SubjectServices } from '../services'
 import { useState } from 'react'
 import { useNotificationsContext } from '../components/providers/NotificationsProvider'
 import { useSettingsContext } from '../components/providers/SettingsProvider'
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 
 const useClassAttendanceForm = ({ idClass, date, data }) => {
     const { language } = useSettingsContext()
-    const { addWarningNotification } = useNotificationsContext()
+    const { addNotification, addWarningNotification } = useNotificationsContext()
     const [isLoading, setLoading] = useState(false)
     const form = useForm({
         defaultValues: data.reduce((accumulator, current) => {
@@ -19,7 +20,7 @@ const useClassAttendanceForm = ({ idClass, date, data }) => {
 
     const ResponseHandler = {
         200: () => {
-            addCreatedSuccessfullyNotification(language.messages.ClassCreated)
+            addNotification({ message: language.messages.ClassAttendancesSaved, icon: faFloppyDisk })
             setTimeout(() => navigate(-1), 1000)
         },
         500: () => {

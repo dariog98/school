@@ -1,5 +1,5 @@
 import { ClientError, ServerError } from '../constants/errors.js'
-import { compare } from '../utils/handleBcrypt.js'
+import { compare, encrypt } from '../utils/handleBcrypt.js'
 import { User } from '../models/index.js'
 import { tokenSign } from '../utils/handleToken.js'
 
@@ -42,18 +42,24 @@ const loginUser = async (username, password) => {
     return data
 }
 
-const registerUser = async (data) => {
-    const { names, surnames, username, mail, dni, birthdate, phone, address, idRole: role_id } = data
-
+const createUser = async (surnames, names, username, password, dni, mail, birthdate, phone, address, idRole) => {
     try {
-        await User.create({ names, surnames, username, mail, dni, birthdate, phone, address, role_id })
+        const passwordHash = await encrypt(password)
+        await User.create({ names, surnames, username, password: passwordHash, dni, mail, birthdate, phone, address, role_id: idRole })
     } catch(error) {
+        //console.log(error)
+        const errorCode = error.original.code
+        if (Number(errorCode) === 23505) {
+            if (error.fields.username) throw new ClientError('Username is duplicate', 409, 1001)
+            if (error.fields.dni) throw new ClientError('DNI is duplicate', 409, 1002)
+            if (error.fields.mail) throw new ClientError('Mail is duplicate', 409, 1003)
+        }
         throw new ServerError('Server error')
     }
 }
 
 const updateUser = async (idUser, surnames, names, dni, birthdate, phone, address) => {
-    const user = await User.findOne({ where: { id: idUser } })
+    const user = await User.findOne({ where: { id: idUser }, include: ['role'] })
     if (!user) throw new ClientError('User not found', 404)
 
     try {
@@ -61,7 +67,6 @@ const updateUser = async (idUser, surnames, names, dni, birthdate, phone, addres
         const data = await createUserDataAndTokens(user)
         return data
     } catch(error) {
-        console.log(error)
         throw new ServerError('Server error')
     }
 }
@@ -77,7 +82,7 @@ const getUserById = async (idUser) => {
 
 const UserServices = {
     loginUser,
-    registerUser,
+    createUser,
     updateUser,
     getUserById
 }

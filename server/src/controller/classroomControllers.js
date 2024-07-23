@@ -89,7 +89,8 @@ const updateClassroomTest = async (request, response) => {
 const addStudentToClassroom = async (request, response) => {
     const idClassroom = Number(request.params.id)
     const idStudent = Number(request.params.student)
-    await ClassroomServices.addStudentToClassroom(idClassroom, idStudent)
+    console.log({ idClassroom, idStudent })
+    await ClassroomServices.addStudentToClassroom(Number(idClassroom), Number(idStudent))
     sendResponse({ response, statusCode: 200, message: 'Student added sucessfully' })
 }
 

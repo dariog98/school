@@ -34,7 +34,7 @@ const useTestForm = ({ idClass, idTest, data }) => {
         try {
             setIsLoading(true)
             const { description, date, students: records } = data
-            const students = Object.keys(records).map(idStudent => ({ id: idStudent, qualification: records[idStudent] }))
+            const students = records ? Object.keys(records).map(idStudent => ({ id: idStudent, enabled: records[idStudent].enabled, qualification: records[idStudent].qualification })) : []
 
             if (Number(idTest)) {
                 const response = await SubjectServices.updateSubjectTest({ idClass, idTest, data: { description, date, students } })
@@ -45,6 +45,7 @@ const useTestForm = ({ idClass, idTest, data }) => {
             }
         } catch (error) {
             console.log(error)
+            addWarningNotification(language.messages.ConnectionError)
         } finally {
             setIsLoading(false)
         }

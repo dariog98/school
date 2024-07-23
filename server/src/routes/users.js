@@ -7,4 +7,8 @@ router.get('/:id', UserControllers.getUser)
 router.post('/login', UserControllers.loginUser)
 router.patch('/', UserControllers.updateUser)
 
-export default router
+router.post('/register/admin', UserControllers.createAdmin)
+router.post('/register/professor', UserControllers.createProfessor)
+router.post('/register/student', UserControllers.createStudent)
+
+export default (app) => app.use('/users', router)

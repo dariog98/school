@@ -2,17 +2,30 @@ import { useParams } from 'react-router-dom'
 import { Container, Loading, MainContainer } from '../components/basics'
 import { useClassAttendance, useCustomSearchParams, useDate } from '../hooks'
 import { AttendanceCalendar, AttendanceForm, AttendanceStatus } from '../components/attendance'
+import { getStringDateInTimeZone } from '../constants/date'
 
 const Attendance = () => {
     const { id: idClass } = useParams()
     const dateParam = useCustomSearchParams('date')
-    const { date, goToPrevDate, goToNextDate } = useDate(dateParam.getItem())
+    const { date } = useDate(dateParam.getItem())
     const { isLoading, data } = useClassAttendance({ idClass, date })
 
     if (data && data.status === 404) {
         throw new Error('Class not found')
     }
-    
+
+    const handleNextDate = () => {
+        const nextDate = new Date(date.getTime())
+        nextDate.setUTCDate(nextDate.getUTCDate() + 1)
+        dateParam.setItem(getStringDateInTimeZone(nextDate, 'UTC'))
+    }
+
+    const handlePrevDate = () => {
+        const prevDate = new Date(date.getTime())
+        prevDate.setUTCDate(prevDate.getUTCDate() - 1)
+        dateParam.setItem(getStringDateInTimeZone(prevDate, 'UTC'))
+    }
+
     return (
         isLoading
         ?
@@ -29,15 +42,15 @@ const Attendance = () => {
                             idClass={idClass}
                             date={date}
                             students={data.data}
-                            status={data.attendanceStatus}
-                            handleNextDate={goToNextDate}
-                            handlePrevDate={goToPrevDate}
+                            status={data.attendancesStatus}
+                            handleNextDate={handleNextDate}
+                            handlePrevDate={handlePrevDate}
                         />
                     </div>
 
                     <div className='d-flex flex-column gap-3'>
                         <AttendanceCalendar currentDate={date} handleDate={dateParam.setItem}/>
-                        <AttendanceStatus status={'saved'}/>
+                        <AttendanceStatus status={data.attendancesStatus}/>
                     </div>
                 </div>
             </Container>

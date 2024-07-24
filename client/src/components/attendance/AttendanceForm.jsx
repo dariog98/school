@@ -9,7 +9,6 @@ const style = { width: '2rem', height: '1.25rem', display: 'flex', justifyConten
 const ArrowIcon = { width: '2rem', height: '2rem', margin: 0 }
 
 const AttendanceForm = ({ idClass, date, status, students, handlePrevDate, handleNextDate }) => {
-    console.log({status})
     const { language } = useSettingsContext()
     const { form, isLoading } = useClassAttendanceForm({ idClass, date, data: students })
 
@@ -19,7 +18,7 @@ const AttendanceForm = ({ idClass, date, status, students, handlePrevDate, handl
                 <span className='fw-bolder'>{getStringDateInLanguageTimeZone(date, 'EN', 'UTC')}</span>
                 <div className='d-flex gap-3'>
                     {
-                        true &&
+                        status === 'saved' &&
                         <div
                             className='d-flex justify-content-center align-items-center text-light bg-body-violet rounded-5'
                             style={ArrowIcon}
